@@ -1,0 +1,156 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  ADMIN
+  ADJUDICATOR
+  PARTICIPANT
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  role         Role
+  adjudicator  Adjudicator?
+  speaker      Speaker?
+  createdAt    DateTime @default(now())
+}
+
+model Tournament {
+  id           String        @id @default(cuid())
+  name         String
+  slug         String        @unique
+  format       String
+  startDate    DateTime
+  endDate      DateTime
+  isActive     Boolean       @default(true)
+  teams        Team[]
+  adjudicators Adjudicator[]
+  venues       Venue[]
+  rounds       Round[]
+  createdAt    DateTime      @default(now())
+}
+
+model Team {
+  id           String       @id @default(cuid())
+  tournamentId String
+  tournament   Tournament   @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
+  name         String
+  institution  String?
+  speakers     Speaker[]
+  debateTeams  DebateTeam[]
+
+  @@index([tournamentId])
+}
+
+model Speaker {
+  id     String  @id @default(cuid())
+  teamId String
+  team   Team    @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  userId String? @unique
+  user   User?   @relation(fields: [userId], references: [id])
+  name   String
+  scores SpeakerScore[]
+
+  @@index([teamId])
+}
+
+model Adjudicator {
+  id           String     @id @default(cuid())
+  tournamentId String
+  tournament   Tournament @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
+  userId       String?    @unique
+  user         User?      @relation(fields: [userId], references: [id])
+  name         String
+  debates      Debate[]
+  ballots      Ballot[]
+
+  @@index([tournamentId])
+}
+
+model Venue {
+  id           String     @id @default(cuid())
+  tournamentId String
+  tournament   Tournament @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
+  name         String
+  debates      Debate[]
+
+  @@index([tournamentId])
+}
+
+model Round {
+  id           String     @id @default(cuid())
+  tournamentId String
+  tournament   Tournament @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
+  seq          Int
+  name         String
+  motion       String?
+  debates      Debate[]
+
+  @@unique([tournamentId, seq])
+}
+
+enum DebateStatus {
+  SCHEDULED
+  RESULT_ENTERED
+  CONFIRMED
+}
+
+model Debate {
+  id           String        @id @default(cuid())
+  roundId      String
+  round        Round         @relation(fields: [roundId], references: [id], onDelete: Cascade)
+  venueId      String?
+  venue        Venue?        @relation(fields: [venueId], references: [id])
+  status       DebateStatus  @default(SCHEDULED)
+  teams        DebateTeam[]
+  adjudicators Adjudicator[]
+  ballots      Ballot[]
+
+  @@index([roundId])
+}
+
+model DebateTeam {
+  id       String  @id @default(cuid())
+  debateId String
+  debate   Debate  @relation(fields: [debateId], references: [id], onDelete: Cascade)
+  teamId   String
+  team     Team    @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  position String
+  points   Int?
+
+  @@unique([debateId, teamId])
+  @@index([teamId])
+}
+
+model Ballot {
+  id            String        @id @default(cuid())
+  debateId      String
+  debate        Debate        @relation(fields: [debateId], references: [id], onDelete: Cascade)
+  adjudicatorId String
+  adjudicator   Adjudicator   @relation(fields: [adjudicatorId], references: [id])
+  submittedAt   DateTime      @default(now())
+  speakerScores SpeakerScore[]
+
+  @@index([debateId])
+}
+
+model SpeakerScore {
+  id        String  @id @default(cuid())
+  ballotId  String
+  ballot    Ballot  @relation(fields: [ballotId], references: [id], onDelete: Cascade)
+  speakerId String
+  speaker   Speaker @relation(fields: [speakerId], references: [id], onDelete: Cascade)
+  score     Float
+
+  @@index([ballotId])
+  @@index([speakerId])
+}
