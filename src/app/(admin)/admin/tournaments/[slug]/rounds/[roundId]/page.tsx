@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { requireRole } from "@/lib/dal";
 import { createDebate, deleteDebate } from "@/lib/actions/rounds";
+import { AutoPairButton } from "./auto-pair-button";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -12,7 +13,6 @@ import {
   CardDescription,
   CardContent,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 
 const STATUS_LABEL: Record<string, string> = {
   SCHEDULED: "Scheduled",
@@ -63,7 +63,7 @@ export default async function RoundPage(
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight">
+          <h1 className="font-serif text-3xl font-semibold tracking-tight">
             {round.name}
           </h1>
           <Link
@@ -75,37 +75,66 @@ export default async function RoundPage(
         </div>
       </div>
 
+      {round.motion && (
+        <div className="rounded-md border-l-4 border-l-gold bg-accent/40 px-4 py-3">
+          <span className="eyebrow text-[0.65rem]">Motion</span>
+          <p className="mt-1 font-serif text-lg">{round.motion}</p>
+        </div>
+      )}
+
       <Card>
-        <CardHeader>
-          <CardTitle>Create debate</CardTitle>
-          <CardDescription>
-            Assign teams, a venue, and adjudicators for this pairing.
-          </CardDescription>
+        <CardHeader className="flex flex-row items-start justify-between space-y-0">
+          <div>
+            <CardTitle>Create debate</CardTitle>
+            <CardDescription>
+              Assign teams, a venue, and adjudicators for this pairing.
+            </CardDescription>
+          </div>
+          <AutoPairButton slug={slug} roundId={roundId} />
         </CardHeader>
         <CardContent>
           <form action={createDebateAction} className="space-y-4">
             <div className="grid gap-3 sm:grid-cols-2">
-              {[0, 1, 2, 3].map((i) => (
-                <div key={i} className="flex gap-2">
-                  <Input
-                    name={`position-${i}`}
-                    placeholder={`Position ${i + 1} (e.g. GOV)`}
-                    className="w-40"
-                  />
-                  <select
-                    name={`team-${i}`}
-                    className="h-9 w-full rounded-md border bg-background px-3 text-sm"
-                    defaultValue=""
-                  >
-                    <option value="">— No team —</option>
-                    {round.tournament.teams.map((team) => (
-                      <option key={team.id} value={team.id}>
-                        {team.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              ))}
+              <div className="space-y-1.5">
+                <label className="eyebrow !text-green-accent text-[0.65rem]">
+                  Government
+                </label>
+                <select
+                  name="govTeamId"
+                  required
+                  className="h-9 w-full rounded-md border bg-background px-3 text-sm"
+                  defaultValue=""
+                >
+                  <option value="" disabled>
+                    Select team
+                  </option>
+                  {availableTeams.map((team) => (
+                    <option key={team.id} value={team.id}>
+                      {team.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="space-y-1.5">
+                <label className="eyebrow !text-gold text-[0.65rem]">
+                  Opposition
+                </label>
+                <select
+                  name="oppTeamId"
+                  required
+                  className="h-9 w-full rounded-md border bg-background px-3 text-sm"
+                  defaultValue=""
+                >
+                  <option value="" disabled>
+                    Select team
+                  </option>
+                  {availableTeams.map((team) => (
+                    <option key={team.id} value={team.id}>
+                      {team.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
 
             <div className="grid gap-3 sm:grid-cols-2">
@@ -149,12 +178,25 @@ export default async function RoundPage(
       </Card>
 
       <div className="grid gap-4 sm:grid-cols-2">
-        {round.debates.map((debate) => (
-          <Card key={debate.id}>
+        {round.debates.map((debate) => {
+          const gov = debate.teams.find((t) => t.position === "GOVERNMENT");
+          const opp = debate.teams.find((t) => t.position === "OPPOSITION");
+          return (
+          <Card key={debate.id} className="border-l-4 border-l-navy">
             <CardHeader className="flex flex-row items-start justify-between space-y-0">
               <div>
-                <CardTitle className="text-base">
-                  {debate.teams.map((t) => t.team.name).join(" vs. ")}
+                <CardTitle className="text-base font-serif">
+                  <span
+                    className={gov?.won ? "text-green-accent" : ""}
+                  >
+                    {gov?.team.name ?? "?"}
+                  </span>
+                  <span className="mx-1.5 font-sans text-xs font-normal text-muted-foreground">
+                    vs
+                  </span>
+                  <span className={opp?.won ? "text-gold" : ""}>
+                    {opp?.team.name ?? "?"}
+                  </span>
                 </CardTitle>
                 <CardDescription>
                   {debate.venue?.name ?? "No venue"} &middot;{" "}
@@ -183,7 +225,8 @@ export default async function RoundPage(
               </form>
             </CardContent>
           </Card>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

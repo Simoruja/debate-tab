@@ -19,12 +19,26 @@ import {
 } from "@/components/ui/table";
 import { NewTournamentDialog } from "./new-tournament-dialog";
 
-function StatCard({ label, value }: { label: string; value: number }) {
+const ACCENTS = ["border-l-gold", "border-l-green-accent", "border-l-navy"];
+
+function StatCard({
+  label,
+  value,
+  accent,
+}: {
+  label: string;
+  value: number;
+  accent: string;
+}) {
   return (
-    <Card>
+    <Card className={`border-l-4 ${accent}`}>
       <CardContent className="py-4">
-        <p className="text-2xl font-semibold tracking-tight">{value}</p>
-        <p className="text-xs text-muted-foreground">{label}</p>
+        <p className="font-serif text-3xl font-semibold tracking-tight lining-nums">
+          {value}
+        </p>
+        <p className="text-xs uppercase tracking-wide text-muted-foreground">
+          {label}
+        </p>
       </CardContent>
     </Card>
   );
@@ -48,7 +62,8 @@ export default async function AdminDashboard() {
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight">
+          <span className="eyebrow">Overview</span>
+          <h1 className="mt-1 font-serif text-3xl font-semibold tracking-tight">
             Tournaments
           </h1>
           <p className="text-sm text-muted-foreground">
@@ -59,10 +74,26 @@ export default async function AdminDashboard() {
       </div>
 
       <div className="grid gap-4 grid-cols-2 sm:grid-cols-4">
-        <StatCard label="Active tournaments" value={activeCount} />
-        <StatCard label="Total tournaments" value={tournaments.length} />
-        <StatCard label="Teams registered" value={teamCount} />
-        <StatCard label="Debates pending" value={pendingCount} />
+        <StatCard
+          label="Active tournaments"
+          value={activeCount}
+          accent={ACCENTS[0]}
+        />
+        <StatCard
+          label="Total tournaments"
+          value={tournaments.length}
+          accent={ACCENTS[1]}
+        />
+        <StatCard
+          label="Teams registered"
+          value={teamCount}
+          accent={ACCENTS[2]}
+        />
+        <StatCard
+          label="Debates pending"
+          value={pendingCount}
+          accent={ACCENTS[0]}
+        />
       </div>
 
       <Card>

@@ -118,39 +118,56 @@ model Debate {
   @@index([roundId])
 }
 
+enum TeamPosition {
+  GOVERNMENT
+  OPPOSITION
+}
+
 model DebateTeam {
-  id       String  @id @default(cuid())
+  id       String       @id @default(cuid())
   debateId String
-  debate   Debate  @relation(fields: [debateId], references: [id], onDelete: Cascade)
+  debate   Debate       @relation(fields: [debateId], references: [id], onDelete: Cascade)
   teamId   String
-  team     Team    @relation(fields: [teamId], references: [id], onDelete: Cascade)
-  position String
-  points   Int?
+  team     Team         @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  position TeamPosition
+  won      Boolean?
 
   @@unique([debateId, teamId])
+  @@unique([debateId, position])
   @@index([teamId])
 }
 
 model Ballot {
-  id            String        @id @default(cuid())
+  id            String         @id @default(cuid())
   debateId      String
-  debate        Debate        @relation(fields: [debateId], references: [id], onDelete: Cascade)
+  debate        Debate         @relation(fields: [debateId], references: [id], onDelete: Cascade)
   adjudicatorId String
-  adjudicator   Adjudicator   @relation(fields: [adjudicatorId], references: [id])
-  submittedAt   DateTime      @default(now())
+  adjudicator   Adjudicator    @relation(fields: [adjudicatorId], references: [id])
+  submittedAt   DateTime       @default(now())
   speakerScores SpeakerScore[]
 
   @@index([debateId])
 }
 
-model SpeakerScore {
-  id        String  @id @default(cuid())
-  ballotId  String
-  ballot    Ballot  @relation(fields: [ballotId], references: [id], onDelete: Cascade)
-  speakerId String
-  speaker   Speaker @relation(fields: [speakerId], references: [id], onDelete: Cascade)
-  score     Float
+// Role a debater filled in one specific ballot (APDA: Government = PM/MG, Opposition = LO/MO)
+enum SpeakerRole {
+  PM
+  MG
+  LO
+  MO
+}
 
+model SpeakerScore {
+  id        String      @id @default(cuid())
+  ballotId  String
+  ballot    Ballot      @relation(fields: [ballotId], references: [id], onDelete: Cascade)
+  speakerId String
+  speaker   Speaker     @relation(fields: [speakerId], references: [id], onDelete: Cascade)
+  role      SpeakerRole
+  score     Int
+  rank      Int
+
+  @@unique([ballotId, rank])
   @@index([ballotId])
   @@index([speakerId])
 }

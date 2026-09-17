@@ -17,6 +17,7 @@ export default async function AdjudicateBallotPage(
       round: true,
       adjudicators: true,
       teams: { include: { team: { include: { speakers: true } } } },
+      ballots: { include: { speakerScores: true } },
     },
   });
 
@@ -40,12 +41,22 @@ export default async function AdjudicateBallotPage(
       >
         &larr; Your debates
       </Link>
-      <div className="mt-1 mb-6 flex items-center gap-2">
-        <h1 className="text-2xl font-semibold tracking-tight">
-          {debate.teams.map((t) => t.team.name).join(" vs. ")}
+      <span className="eyebrow mt-4 block">{debate.round.name}</span>
+      <div className="mt-1 mb-2 flex items-center gap-2">
+        <h1 className="font-serif text-2xl font-semibold tracking-tight">
+          {debate.teams
+            .slice()
+            .sort((a) => (a.position === "GOVERNMENT" ? -1 : 1))
+            .map((t) => t.team.name)
+            .join(" vs. ")}
         </h1>
         <Badge>{debate.status}</Badge>
       </div>
+      {debate.round.motion && (
+        <p className="mb-6 text-sm italic text-muted-foreground">
+          {debate.round.motion}
+        </p>
+      )}
 
       <BallotForm
         debate={debate}

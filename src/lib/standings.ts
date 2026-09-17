@@ -3,9 +3,9 @@ import { prisma } from "@/lib/prisma";
 export type TeamStanding = {
   teamId: string;
   teamName: string;
-  totalPoints: number;
-  totalSpeakerScore: number;
+  wins: number;
   debatesCounted: number;
+  totalSpeakerScore: number;
 };
 
 export type SpeakerStanding = {
@@ -14,6 +14,7 @@ export type SpeakerStanding = {
   teamName: string;
   totalScore: number;
   averageScore: number;
+  averageRank: number | null;
   debatesCounted: number;
 };
 
@@ -44,10 +45,7 @@ export async function getTeamStandings(
 
   return teams
     .map((team) => {
-      const totalPoints = team.debateTeams.reduce(
-        (sum, dt) => sum + (dt.points ?? 0),
-        0
-      );
+      const wins = team.debateTeams.filter((dt) => dt.won === true).length;
       const totalSpeakerScore = team.debateTeams
         .flatMap((dt) => dt.team.speakers)
         .flatMap((s) => s.scores)
@@ -56,16 +54,12 @@ export async function getTeamStandings(
       return {
         teamId: team.id,
         teamName: team.name,
-        totalPoints,
-        totalSpeakerScore,
+        wins,
         debatesCounted: team.debateTeams.length,
+        totalSpeakerScore,
       };
     })
-    .sort(
-      (a, b) =>
-        b.totalPoints - a.totalPoints ||
-        b.totalSpeakerScore - a.totalSpeakerScore
-    );
+    .sort((a, b) => b.wins - a.wins || b.totalSpeakerScore - a.totalSpeakerScore);
 }
 
 export async function getSpeakerStandings(
@@ -85,12 +79,17 @@ export async function getSpeakerStandings(
     .map((speaker) => {
       const totalScore = speaker.scores.reduce((sum, s) => sum + s.score, 0);
       const debatesCounted = speaker.scores.length;
+      const averageRank =
+        debatesCounted > 0
+          ? speaker.scores.reduce((sum, s) => sum + s.rank, 0) / debatesCounted
+          : null;
       return {
         speakerId: speaker.id,
         speakerName: speaker.name,
         teamName: speaker.team.name,
         totalScore,
         averageScore: debatesCounted > 0 ? totalScore / debatesCounted : 0,
+        averageRank,
         debatesCounted,
       };
     })

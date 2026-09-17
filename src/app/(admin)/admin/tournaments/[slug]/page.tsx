@@ -48,7 +48,7 @@ export default async function TournamentDetailPage(
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold tracking-tight">
+        <h1 className="font-serif text-3xl font-semibold tracking-tight">
           {tournament.name}
         </h1>
         <p className="text-sm text-muted-foreground">
@@ -189,29 +189,34 @@ function RoundsSection({
   rounds,
 }: {
   slug: string;
-  rounds: { id: string; seq: number; name: string }[];
+  rounds: { id: string; seq: number; name: string; motion: string | null }[];
 }) {
   return (
     <Card>
-      <CardHeader className="flex flex-row items-center justify-between">
-        <div>
-          <CardTitle>Rounds</CardTitle>
-          <CardDescription>{rounds.length} rounds created</CardDescription>
-        </div>
-        <NewRoundForm slug={slug} nextSeq={rounds.length + 1} />
+      <CardHeader>
+        <CardTitle>Rounds</CardTitle>
+        <CardDescription>{rounds.length} rounds created</CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="space-y-4">
+        <NewRoundForm slug={slug} nextSeq={rounds.length + 1} />
         {rounds.length === 0 ? (
           <p className="text-sm text-muted-foreground">
             No rounds yet. Add teams and adjudicators first, then create a
-            round to start pairing debates.
+            round above to start pairing debates.
           </p>
         ) : (
           <ul className="divide-y">
             {rounds.map((round) => (
-              <li key={round.id} className="flex items-center justify-between py-2">
-                <span className="font-medium">{round.name}</span>
-                <Button asChild variant="outline" size="sm">
+              <li key={round.id} className="flex items-center justify-between gap-4 py-2">
+                <div className="min-w-0">
+                  <span className="font-medium">{round.name}</span>
+                  {round.motion && (
+                    <p className="truncate text-xs text-muted-foreground">
+                      {round.motion}
+                    </p>
+                  )}
+                </div>
+                <Button asChild variant="outline" size="sm" className="shrink-0">
                   <Link
                     href={`/admin/tournaments/${slug}/rounds/${round.id}`}
                   >
@@ -230,17 +235,24 @@ function RoundsSection({
 function NewRoundForm({ slug, nextSeq }: { slug: string; nextSeq: number }) {
   const action = createRound.bind(null, slug);
   return (
-    <form action={action} className="flex items-center gap-2">
+    <form action={action} className="space-y-2 rounded-md border p-3">
       <input type="hidden" name="seq" value={nextSeq} />
-      <Input
-        name="name"
-        placeholder={`Round ${nextSeq}`}
-        defaultValue={`Round ${nextSeq}`}
-        className="w-40"
-      />
-      <Button type="submit" size="sm">
-        Add round
-      </Button>
+      <div className="flex items-center gap-2">
+        <Input
+          name="name"
+          placeholder={`Round ${nextSeq}`}
+          defaultValue={`Round ${nextSeq}`}
+          className="w-40"
+        />
+        <Input
+          name="motion"
+          placeholder="Motion (e.g. This House Would...)"
+          className="flex-1"
+        />
+        <Button type="submit" size="sm">
+          Add round
+        </Button>
+      </div>
     </form>
   );
 }
