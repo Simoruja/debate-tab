@@ -31,9 +31,9 @@ export default async function AdjudicateHome() {
     : [];
 
   return (
-    <div className="mx-auto w-full max-w-2xl flex-1 px-6 py-12">
-      <div className="mb-8 flex items-center justify-between">
-        <h1 className="text-2xl font-semibold tracking-tight">
+    <div className="safe-top mx-auto w-full max-w-2xl flex-1 px-4 py-8 sm:px-6 sm:py-12">
+      <div className="mb-6 flex items-center justify-between gap-4 sm:mb-8">
+        <h1 className="text-xl font-semibold tracking-tight sm:text-2xl">
           Your assigned debates
         </h1>
         <form action={logout}>
@@ -50,9 +50,9 @@ export default async function AdjudicateHome() {
       ) : (
         <div className="space-y-3">
           {debates.map((debate) => (
-            <Card key={debate.id}>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0">
-                <div>
+            <Card key={debate.id} className="pressable">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 gap-3">
+                <div className="min-w-0">
                   <CardTitle className="text-base">
                     {debate.teams.map((t) => t.team.name).join(" vs. ")}
                   </CardTitle>
@@ -60,10 +60,10 @@ export default async function AdjudicateHome() {
                     {debate.round.tournament.name} &middot; {debate.round.name}
                   </CardDescription>
                 </div>
-                <Badge>{debate.status}</Badge>
+                <Badge className="shrink-0">{debate.status}</Badge>
               </CardHeader>
               <CardContent>
-                <Button asChild size="sm">
+                <Button asChild size="lg" className="h-11 w-full sm:h-9 sm:w-auto">
                   <Link href={`/adjudicate/${debate.id}`}>
                     {debate.status === "SCHEDULED" ? "Enter result" : "View result"}
                   </Link>

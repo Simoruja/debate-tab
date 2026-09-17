@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { Badge } from "@/components/ui/badge";
+import { HapticLink } from "@/components/haptic-link";
 
 const ACCENTS = ["border-l-gold", "border-l-green-accent", "border-l-navy"];
 
@@ -21,7 +21,7 @@ export default async function Home() {
 
   return (
     <div className="flex-1">
-      <section className="relative overflow-hidden bg-navy px-6 py-24 text-cream">
+      <section className="relative overflow-hidden bg-navy px-4 py-16 text-cream sm:px-6 sm:py-24">
         <div
           className="pointer-events-none absolute inset-0 opacity-40"
           style={{
@@ -62,7 +62,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="mx-auto w-full max-w-5xl px-6 py-16">
+      <section className="mx-auto w-full max-w-5xl px-4 py-10 sm:px-6 sm:py-16">
         {tournaments.length === 0 ? (
           <p className="text-muted-foreground">
             No tournaments have been created yet.
@@ -70,10 +70,10 @@ export default async function Home() {
         ) : (
           <div className="grid gap-5 sm:grid-cols-2">
             {tournaments.map((t, i) => (
-              <Link
+              <HapticLink
                 key={t.id}
                 href={`/tournaments/${t.slug}/standings`}
-                className={`group animate-in fade-in-0 slide-in-from-bottom-2 rounded-lg border border-l-4 bg-card p-6 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md ${
+                className={`group animate-in fade-in-0 slide-in-from-bottom-2 rounded-lg border border-l-4 bg-card p-6 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md active:duration-75 ${
                   ACCENTS[i % ACCENTS.length]
                 }`}
                 style={{ animationDelay: `${i * 60}ms`, animationFillMode: "backwards" }}
@@ -95,7 +95,7 @@ export default async function Home() {
                     {t._count.teams} teams &rarr;
                   </span>
                 </div>
-              </Link>
+              </HapticLink>
             ))}
           </div>
         )}

@@ -12,8 +12,8 @@ export default async function AdminLayout({
 
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="border-b bg-card">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+      <header className="safe-top border-b bg-card">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6 sm:py-4">
           <Link href="/admin" className="font-serif text-lg font-semibold tracking-tight">
             Tabroom <span className="text-gold">Admin</span>
           </Link>
@@ -27,7 +27,7 @@ export default async function AdminLayout({
           </div>
         </div>
       </header>
-      <main className="mx-auto w-full max-w-6xl flex-1 px-6 py-8">
+      <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-6 sm:px-6 sm:py-8">
         {children}
       </main>
     </div>

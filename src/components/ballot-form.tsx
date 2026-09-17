@@ -1,10 +1,10 @@
 "use client";
 
-import { useActionState, useMemo, useState } from "react";
+import { useActionState, useEffect, useMemo, useState } from "react";
 import { submitBallot, type BallotFormState } from "@/lib/actions/ballots";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { haptic } from "@/lib/haptics";
 import {
   Card,
   CardHeader,
@@ -39,6 +39,57 @@ const ROLE_OPTIONS: Record<Position, { value: string }[]> = {
   GOVERNMENT: [{ value: "PM" }, { value: "MG" }],
   OPPOSITION: [{ value: "LO" }, { value: "MO" }],
 };
+
+function ScoreStepper({
+  speakerId,
+  value,
+  onChange,
+}: {
+  speakerId: string;
+  value: number;
+  onChange: (value: number) => void;
+}) {
+  function step(delta: number) {
+    const next = Math.min(50, Math.max(0, value + delta));
+    if (next !== value) haptic.tap();
+    onChange(next);
+  }
+
+  return (
+    <div className="flex h-11 items-stretch overflow-hidden rounded-md border bg-background">
+      <button
+        type="button"
+        aria-label="Decrease points"
+        onClick={() => step(-1)}
+        className="w-9 shrink-0 touch-manipulation text-lg font-medium text-muted-foreground transition-colors active:bg-muted active:text-foreground"
+      >
+        &minus;
+      </button>
+      <input
+        name={`score-${speakerId}`}
+        type="number"
+        inputMode="numeric"
+        step="1"
+        min="0"
+        max="50"
+        value={value}
+        onChange={(e) => {
+          const n = Number(e.target.value);
+          onChange(Number.isFinite(n) ? Math.min(50, Math.max(0, n)) : 0);
+        }}
+        className="w-full min-w-0 flex-1 border-x bg-transparent text-center text-base font-medium tabular-nums outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+      />
+      <button
+        type="button"
+        aria-label="Increase points"
+        onClick={() => step(1)}
+        className="w-9 shrink-0 touch-manipulation text-lg font-medium text-muted-foreground transition-colors active:bg-muted active:text-foreground"
+      >
+        +
+      </button>
+    </div>
+  );
+}
 
 function TeamColumn({
   dt,
@@ -76,8 +127,11 @@ function TeamColumn({
     >
       <button
         type="button"
-        onClick={onSelectWinner}
-        className={`flex w-full items-center justify-between rounded-md border px-3 py-2 text-left text-sm font-medium transition-colors ${
+        onClick={() => {
+          haptic.select();
+          onSelectWinner();
+        }}
+        className={`flex min-h-11 w-full touch-manipulation items-center justify-between rounded-md border px-3 py-2 text-left text-sm font-medium transition-all duration-150 active:scale-[0.98] ${
           isWinner
             ? "border-primary bg-primary text-primary-foreground"
             : "border-border bg-background hover:bg-muted"
@@ -104,7 +158,7 @@ function TeamColumn({
                 defaultValue={
                   roleDefaults[speaker.id] ?? ROLE_OPTIONS[position][idx % 2].value
                 }
-                className="h-9 w-full rounded-md border bg-background px-2 text-sm"
+                className="h-11 w-full touch-manipulation rounded-md border bg-background px-2 text-sm"
               >
                 {ROLE_OPTIONS[position].map((r) => (
                   <option key={r.value} value={r.value}>
@@ -115,17 +169,10 @@ function TeamColumn({
             </div>
             <div className="space-y-1">
               <Label className="text-xs text-muted-foreground">Points</Label>
-              <Input
-                name={`score-${speaker.id}`}
-                type="number"
-                step="1"
-                min="0"
-                max="50"
+              <ScoreStepper
+                speakerId={speaker.id}
                 value={scores[speaker.id] ?? 25}
-                onChange={(e) =>
-                  onScoreChange(speaker.id, Number(e.target.value))
-                }
-                className="h-9"
+                onChange={(value) => onScoreChange(speaker.id, value)}
               />
             </div>
             <div className="space-y-1">
@@ -133,8 +180,11 @@ function TeamColumn({
               <select
                 name={`rank-${speaker.id}`}
                 value={ranks[speaker.id] ?? ""}
-                onChange={(e) => onRankChange(speaker.id, e.target.value)}
-                className="h-9 w-full rounded-md border bg-background px-2 text-sm"
+                onChange={(e) => {
+                  haptic.tap();
+                  onRankChange(speaker.id, e.target.value);
+                }}
+                className="h-11 w-full touch-manipulation rounded-md border bg-background px-2 text-sm"
               >
                 <option value="" disabled>
                   &mdash;
@@ -211,19 +261,11 @@ export function BallotForm({
 
   const usedRanks = useMemo(() => new Set(Object.values(ranks)), [ranks]);
 
-  if (!gov || !opp) {
-    return (
-      <p className="text-sm text-muted-foreground">
-        This debate needs both a Government and Opposition team assigned.
-      </p>
-    );
-  }
-
-  const govTotal = gov.team.speakers.reduce(
+  const govTotal = (gov?.team.speakers ?? []).reduce(
     (sum, s) => sum + (scores[s.id] ?? 0),
     0
   );
-  const oppTotal = opp.team.speakers.reduce(
+  const oppTotal = (opp?.team.speakers ?? []).reduce(
     (sum, s) => sum + (scores[s.id] ?? 0),
     0
   );
@@ -233,6 +275,22 @@ export function BallotForm({
       : winner === "OPPOSITION"
         ? oppTotal < govTotal
         : false;
+
+  useEffect(() => {
+    if (lowPointWin) haptic.warning();
+  }, [lowPointWin]);
+
+  useEffect(() => {
+    if (state?.error) haptic.error();
+  }, [state?.error]);
+
+  if (!gov || !opp) {
+    return (
+      <p className="text-sm text-muted-foreground">
+        This debate needs both a Government and Opposition team assigned.
+      </p>
+    );
+  }
 
   function handleScoreChange(speakerId: string, value: number) {
     setScores((prev) => ({ ...prev, [speakerId]: value }));
@@ -296,9 +354,16 @@ export function BallotForm({
             </p>
           )}
 
-          <Button type="submit" disabled={pending || !winner}>
-            {pending ? "Submitting..." : "Submit ballot"}
-          </Button>
+          <div className="safe-bottom sticky bottom-0 -mx-4 -mb-4 border-t bg-card/95 px-4 py-3 backdrop-blur sm:static sm:m-0 sm:border-0 sm:bg-transparent sm:p-0 sm:backdrop-blur-none">
+            <Button
+              type="submit"
+              size="lg"
+              disabled={pending || !winner}
+              className="h-12 w-full text-base sm:h-9 sm:w-auto sm:text-sm"
+            >
+              {pending ? "Submitting..." : "Submit ballot"}
+            </Button>
+          </div>
         </form>
       </CardContent>
     </Card>

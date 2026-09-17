@@ -10,6 +10,7 @@ import {
   deleteVenue,
 } from "@/lib/actions/roster";
 import { createRound } from "@/lib/actions/rounds";
+import { InviteSpeakerDialog } from "./invite-speaker-dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -95,9 +96,22 @@ export default async function TournamentDetailPage(
                     >
                       <div>
                         <p className="font-medium">{team.name}</p>
-                        <p className="text-xs text-muted-foreground">
-                          {team.speakers.map((s) => s.name).join(", ")}
-                        </p>
+                        <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs text-muted-foreground">
+                          {team.speakers.map((s) => (
+                            <span key={s.id} className="flex items-center gap-1.5">
+                              {s.name}
+                              {s.userId ? (
+                                <span className="text-green-accent">&#10003;</span>
+                              ) : (
+                                <InviteSpeakerDialog
+                                  slug={slug}
+                                  speakerId={s.id}
+                                  speakerName={s.name}
+                                />
+                              )}
+                            </span>
+                          ))}
+                        </div>
                       </div>
                       <form action={deleteTeam.bind(null, slug, team.id)}>
                         <Button variant="ghost" size="sm" type="submit">

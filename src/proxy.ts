@@ -17,9 +17,17 @@ export default auth((req) => {
     return NextResponse.redirect(new URL("/login", req.nextUrl));
   }
 
+  if (
+    pathname.startsWith("/participant") &&
+    role !== "PARTICIPANT" &&
+    role !== "ADMIN"
+  ) {
+    return NextResponse.redirect(new URL("/login", req.nextUrl));
+  }
+
   return NextResponse.next();
 });
 
 export const config = {
-  matcher: ["/admin/:path*", "/adjudicate/:path*"],
+  matcher: ["/admin/:path*", "/adjudicate/:path*", "/participant/:path*"],
 };

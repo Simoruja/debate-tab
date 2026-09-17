@@ -130,11 +130,13 @@
   * {
     @apply border-border outline-ring/50;
   }
-  body {
-    @apply bg-background text-foreground;
-  }
   html {
     @apply font-sans;
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply bg-background text-foreground;
+    padding-bottom: env(safe-area-inset-bottom);
   }
   h1,
   h2,
@@ -143,6 +145,33 @@
   }
   .font-serif {
     font-variant-numeric: lining-nums;
+  }
+  /* Comfortable minimum touch target on phones/tablets without changing
+     visual size on pointer (mouse) devices. */
+  @media (pointer: coarse) {
+    button,
+    a[role="button"],
+    [data-slot="button"] {
+      min-height: 2.75rem;
+    }
+    [data-slot="button"][data-size="icon"],
+    [data-slot="button"][data-size="icon-sm"],
+    [data-slot="button"][data-size="icon-lg"] {
+      min-width: 2.75rem;
+    }
+    [data-slot="tabs-list"] {
+      height: 2.75rem;
+    }
+    [data-slot="tabs-trigger"] {
+      padding-block: 0.5rem;
+    }
+    select,
+    input[type="text"],
+    input[type="number"],
+    input[type="email"],
+    input[type="password"] {
+      min-height: 2.75rem;
+    }
   }
 }
 
@@ -153,5 +182,16 @@
   .eyebrow::before {
     content: "";
     @apply h-px w-6 bg-gold;
+  }
+  /* "Playable" press feedback for tappable, non-<button> surfaces
+     (cards, list rows) — pairs with the haptic tap on real buttons. */
+  .pressable {
+    @apply transition-transform duration-150 ease-out active:scale-[0.97];
+  }
+  .safe-top {
+    padding-top: env(safe-area-inset-top);
+  }
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
   }
 }

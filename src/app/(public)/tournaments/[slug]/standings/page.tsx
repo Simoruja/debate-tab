@@ -35,7 +35,7 @@ export default async function PublicStandingsPage(
   ]);
 
   return (
-    <div className="mx-auto w-full max-w-4xl flex-1 px-6 py-12">
+    <div className="mx-auto w-full max-w-4xl flex-1 px-4 py-8 sm:px-6 sm:py-12">
       <Link href="/" className="text-sm text-muted-foreground hover:underline">
         &larr; All tournaments
       </Link>
