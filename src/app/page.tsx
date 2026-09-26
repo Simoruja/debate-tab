@@ -1,3 +1,4 @@
+import { connection } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { Badge } from "@/components/ui/badge";
 import { HapticLink } from "@/components/haptic-link";
@@ -15,6 +16,8 @@ function formatDateRange(start: Date, end: Date) {
 }
 
 export default async function Home() {
+  // The directory reads live data; don't freeze it at build time.
+  await connection();
   const tournaments = await prisma.tournament.findMany({
     orderBy: { startDate: "desc" },
     include: { _count: { select: { teams: true } } },
