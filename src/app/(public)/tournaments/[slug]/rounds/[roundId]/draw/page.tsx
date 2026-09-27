@@ -81,13 +81,13 @@ export default async function PublicDrawPage(
                         {debate.venue?.name ?? "Venue TBD"}
                       </p>
                       <div className="mt-3 grid flex-1 grid-cols-[1fr_auto_1fr] items-center gap-2">
-                        <div className="rounded-lg border-t-4 border-t-gold bg-gold/5 p-3 text-center">
-                          <p className="text-[10px] uppercase tracking-widest text-gold">
+                        <div className="rounded-lg border-t-4 border-t-green-accent bg-green-accent/5 p-3 text-center">
+                          <p className="text-[10px] uppercase tracking-widest text-green-accent">
                             Gov
                           </p>
                           <p
                             className={`font-serif text-lg font-semibold leading-tight ${
-                              decided && gov?.won ? "text-gold" : ""
+                              decided && gov?.won ? "text-green-accent" : ""
                             }`}
                           >
                             {govName}
@@ -96,13 +96,13 @@ export default async function PublicDrawPage(
                         <span className="font-serif text-sm italic text-muted-foreground">
                           vs
                         </span>
-                        <div className="rounded-lg border-t-4 border-t-green-accent bg-green-accent/5 p-3 text-center">
-                          <p className="text-[10px] uppercase tracking-widest text-green-accent">
+                        <div className="rounded-lg border-t-4 border-t-gold bg-gold/5 p-3 text-center">
+                          <p className="text-[10px] uppercase tracking-widest text-gold">
                             Opp
                           </p>
                           <p
                             className={`font-serif text-lg font-semibold leading-tight ${
-                              decided && opp?.won ? "text-green-accent" : ""
+                              decided && opp?.won ? "text-gold" : ""
                             }`}
                           >
                             {oppName}

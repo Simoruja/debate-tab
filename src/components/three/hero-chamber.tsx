@@ -78,10 +78,10 @@ export function HeroChamber() {
               aria-valuenow={govPct}
             >
               <div
-                className="bg-gold transition-[width] duration-500"
+                className="bg-green-accent transition-[width] duration-500"
                 style={{ width: `${govPct}%` }}
               />
-              <div className="flex-1 bg-green-accent" />
+              <div className="flex-1 bg-gold" />
             </div>
             <button
               type="button"
