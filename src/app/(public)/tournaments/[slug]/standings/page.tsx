@@ -12,9 +12,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Podium } from "@/components/three/podium";
 
 export default async function PublicStandingsPage(
-  props: PageProps<"/tournaments/[slug]/standings">
+  props: PageProps<"/tournaments/[slug]/standings">,
 ) {
   const { slug } = await props.params;
 
@@ -48,6 +49,15 @@ export default async function PublicStandingsPage(
           {tournament.isActive ? "Active" : "Concluded"}
         </Badge>
       </div>
+
+      <Podium
+        entries={teamStandings.slice(0, 3).map((row) => ({
+          id: row.teamId,
+          name: row.teamName,
+          wins: row.wins,
+          speakerScore: row.totalSpeakerScore,
+        }))}
+      />
 
       <Tabs defaultValue="teams">
         <TabsList>
@@ -129,7 +139,9 @@ export default async function PublicStandingsPage(
                       {row.averageScore.toFixed(1)}
                     </TableCell>
                     <TableCell className="text-right text-muted-foreground">
-                      {row.averageRank !== null ? row.averageRank.toFixed(1) : "—"}
+                      {row.averageRank !== null
+                        ? row.averageRank.toFixed(1)
+                        : "—"}
                     </TableCell>
                   </TableRow>
                 ))}
