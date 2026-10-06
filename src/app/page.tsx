@@ -18,10 +18,19 @@ function formatDateRange(start: Date, end: Date) {
 export default async function Home() {
   // The directory reads live data; don't freeze it at build time.
   await connection();
-  const tournaments = await prisma.tournament.findMany({
-    orderBy: { startDate: "desc" },
-    include: { _count: { select: { teams: true } } },
-  });
+  // If the database is unreachable (e.g. DATABASE_URL unset on a deployment),
+  // still render the landing page instead of the error boundary.
+  const result = await prisma.tournament
+    .findMany({
+      orderBy: { startDate: "desc" },
+      include: { _count: { select: { teams: true } } },
+    })
+    .catch((error: unknown) => {
+      console.error("Failed to load tournaments", error);
+      return null;
+    });
+  const unavailable = result === null;
+  const tournaments = result ?? [];
   const activeCount = tournaments.filter((t) => t.isActive).length;
 
   return (
@@ -73,7 +82,12 @@ export default async function Home() {
       </section>
 
       <section className="mx-auto w-full max-w-5xl px-4 py-10 sm:px-6 sm:py-16">
-        {tournaments.length === 0 ? (
+        {unavailable ? (
+          <p className="text-muted-foreground">
+            Tournaments can&apos;t be loaded right now. Please try again
+            shortly.
+          </p>
+        ) : tournaments.length === 0 ? (
           <p className="text-muted-foreground">
             No tournaments have been created yet.
           </p>
