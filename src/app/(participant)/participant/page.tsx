@@ -11,6 +11,7 @@ import {
   CardDescription,
   CardContent,
 } from "@/components/ui/card";
+import { SeasonTower } from "@/components/three/season-tower";
 
 const STATUS_LABEL: Record<string, string> = {
   SCHEDULED: "Upcoming",
@@ -106,6 +107,23 @@ export default async function ParticipantDashboard() {
         </Card>
       )}
 
+      <SeasonTower
+        rounds={team.debateTeams.map((dt) => ({
+          id: dt.id,
+          round: dt.debate.round.name,
+          result:
+            dt.debate.status !== "CONFIRMED"
+              ? "pending"
+              : dt.won
+                ? "win"
+                : "loss",
+          side: dt.position === "GOVERNMENT" ? "Gov" : "Opp",
+          opponent:
+            dt.debate.teams.find((t) => t.teamId !== team.id)?.team.name ??
+            "TBD",
+        }))}
+      />
+
       <h2 className="mb-3 font-serif text-xl font-semibold">Your rounds</h2>
       {team.debateTeams.length === 0 ? (
         <p className="text-sm text-muted-foreground">
@@ -128,7 +146,11 @@ export default async function ParticipantDashboard() {
                       {dt.debate.venue?.name ?? "Venue TBD"}
                     </CardDescription>
                   </div>
-                  <Badge variant={dt.debate.status === "CONFIRMED" ? "default" : "secondary"}>
+                  <Badge
+                    variant={
+                      dt.debate.status === "CONFIRMED" ? "default" : "secondary"
+                    }
+                  >
                     {STATUS_LABEL[dt.debate.status]}
                   </Badge>
                 </CardHeader>
@@ -139,7 +161,9 @@ export default async function ParticipantDashboard() {
                     </p>
                     {dt.debate.status === "CONFIRMED" && (
                       <p className="mt-2 text-sm font-medium">
-                        {dt.won ? "You won this debate." : "You lost this debate."}
+                        {dt.won
+                          ? "You won this debate."
+                          : "You lost this debate."}
                       </p>
                     )}
                   </CardContent>

@@ -5,6 +5,7 @@ import { submitBallot, type BallotFormState } from "@/lib/actions/ballots";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { haptic } from "@/lib/haptics";
+import { BallotBalance } from "@/components/three/ballot-balance";
 import {
   Card,
   CardHeader,
@@ -31,7 +32,12 @@ type DebateForBallot = {
   id: string;
   teams: DebateTeamForBallot[];
   ballots?: {
-    speakerScores: { speakerId: string; role: string; score: number; rank: number }[];
+    speakerScores: {
+      speakerId: string;
+      role: string;
+      score: number;
+      rank: number;
+    }[];
   }[];
 };
 
@@ -156,7 +162,8 @@ function TeamColumn({
               <select
                 name={`role-${speaker.id}`}
                 defaultValue={
-                  roleDefaults[speaker.id] ?? ROLE_OPTIONS[position][idx % 2].value
+                  roleDefaults[speaker.id] ??
+                  ROLE_OPTIONS[position][idx % 2].value
                 }
                 className="h-11 w-full touch-manipulation rounded-md border bg-background px-2 text-sm"
               >
@@ -226,19 +233,24 @@ export function BallotForm({
   const gov = debate.teams.find((t) => t.position === "GOVERNMENT");
   const opp = debate.teams.find((t) => t.position === "OPPOSITION");
 
-  const action = submitBallot.bind(null, debate.id, adjudicatorId, redirectPath);
-  const [state, formAction, pending] = useActionState<BallotFormState, FormData>(
-    action,
-    undefined
+  const action = submitBallot.bind(
+    null,
+    debate.id,
+    adjudicatorId,
+    redirectPath,
   );
+  const [state, formAction, pending] = useActionState<
+    BallotFormState,
+    FormData
+  >(action, undefined);
 
   const existingScores = useMemo(
     () => debate.ballots?.[0]?.speakerScores ?? [],
-    [debate.ballots]
+    [debate.ballots],
   );
 
   const [winner, setWinner] = useState<Position | null>(
-    gov?.won ? "GOVERNMENT" : opp?.won ? "OPPOSITION" : null
+    gov?.won ? "GOVERNMENT" : opp?.won ? "OPPOSITION" : null,
   );
   const [ranks, setRanks] = useState<Record<string, string>>(() => {
     const initial: Record<string, string> = {};
@@ -263,11 +275,11 @@ export function BallotForm({
 
   const govTotal = (gov?.team.speakers ?? []).reduce(
     (sum, s) => sum + (scores[s.id] ?? 0),
-    0
+    0,
   );
   const oppTotal = (opp?.team.speakers ?? []).reduce(
     (sum, s) => sum + (scores[s.id] ?? 0),
-    0
+    0,
   );
   const lowPointWin =
     winner === "GOVERNMENT"
@@ -305,13 +317,19 @@ export function BallotForm({
       <CardHeader>
         <CardTitle>Enter ballot</CardTitle>
         <CardDescription>
-          Pick the winning side, assign each speaker&rsquo;s role, points
-          (whole numbers, ~25 is average), and a unique rank 1&ndash;4.
+          Pick the winning side, assign each speaker&rsquo;s role, points (whole
+          numbers, ~25 is average), and a unique rank 1&ndash;4.
         </CardDescription>
       </CardHeader>
       <CardContent>
         <form action={formAction} className="space-y-4">
           <input type="hidden" name="winner" value={winner ?? ""} />
+          <BallotBalance
+            govTotal={govTotal}
+            oppTotal={oppTotal}
+            winner={winner}
+            lowPointWin={lowPointWin}
+          />
           <div className="grid gap-4 sm:grid-cols-2">
             <TeamColumn
               dt={gov}
@@ -344,8 +362,8 @@ export function BallotForm({
           {lowPointWin && (
             <p className="rounded-md border border-destructive/40 bg-destructive/10 px-3 py-2 text-sm text-destructive">
               Low-point win: the winning side&rsquo;s total speaks must be at
-              least the losing side&rsquo;s. APDA does not allow low-point
-              wins &mdash; adjust the points before submitting.
+              least the losing side&rsquo;s. APDA does not allow low-point wins
+              &mdash; adjust the points before submitting.
             </p>
           )}
           {state?.error && (
