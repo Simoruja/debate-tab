@@ -447,6 +447,8 @@
 
       const subject = `${waitlist.length ? "Waitlist" : "Job request"}: ${names.join(", ")} (${payload.name})`;
       $("#request-box").hidden = true;
+      $("#booking-error-detail").hidden = true;
+      let failureReason = "";
 
       if (biz.formEndpoint) {
         const button = $("#booking-submit");
@@ -468,8 +470,11 @@
           status.textContent = "Thanks! We got your request and will reach out within 24 hours.";
           status.classList.add("success");
           return;
-        } catch {
-          // Fall through to the copyable request so the customer isn't stuck.
+        } catch (err) {
+          // Fall through to the copyable request so the customer isn't stuck,
+          // and keep the service's own reason so the problem can be diagnosed.
+          failureReason = err instanceof TypeError ? "Could not reach the booking service." : err.message;
+          console.error("Booking request failed:", err);
         } finally {
           button.disabled = false;
         }
@@ -484,10 +489,18 @@
       $("#request-mail").href =
         `mailto:${biz.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
       $("#request-box").hidden = false;
-      status.textContent = biz.formEndpoint
-        ? `We couldn't send your request automatically. Copy it and text it to ${biz.phone} or email it to ${biz.email}.`
-        : `Your request is ready. Copy it and text it to ${biz.phone} or email it to ${biz.email}.`;
+      const needsActivation = /activat/i.test(failureReason);
+      status.textContent = !biz.formEndpoint
+        ? `Your request is ready. Copy it and text it to ${biz.phone} or email it to ${biz.email}.`
+        : needsActivation
+          ? `Our online booking inbox isn't switched on yet. Please copy your request and text it to ${biz.phone} or email it to ${biz.email}.`
+          : `We couldn't send your request automatically. Copy it and text it to ${biz.phone} or email it to ${biz.email}.`;
       status.classList.add(biz.formEndpoint ? "error" : "success");
+      if (failureReason) {
+        const detail = $("#booking-error-detail");
+        detail.textContent = `Details: ${failureReason}`;
+        detail.hidden = false;
+      }
     });
 
     $("#request-copy").addEventListener("click", async () => {
