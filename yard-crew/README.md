@@ -1,0 +1,106 @@
+# Leaves Away website
+
+The website for **Leaves Away**, a student-run raking, landscaping and (later) snow-shoveling business based in Chestnut Hill and serving Newton and nearby. It's plain HTML/CSS/JS, with no server, and free to host.
+
+## What's on the site
+
+- **Services & prices by season.** Fall and Winter tabs. The site opens on whatever season it currently is.
+- **"Need help with something else?"** A card under the prices and a booking checkbox for jobs that aren't on the price list. The customer describes the job in the notes and you quote it. Edit the wording under `otherHelp` in `config.js`, or delete that block to remove it.
+- **Instant estimate.** Customers pick a service, a yard or driveway size and any add-ons, and get a price right away. They can send that estimate along with their booking.
+- **"How we compare" table.** Your prices next to typical professional prices.
+- **Booking form.** Sends requests to your email (see below).
+- Crew, service area, FAQ, and contact info.
+- Works on phones and supports dark mode.
+
+## Make it yours: edit `config.js`
+
+Everything you'll want to change is in **`config.js`**:
+
+| What | Where in `config.js` |
+| --- | --- |
+| Business name, tagline, phone, email, town, neighborhoods, crew names | `business` |
+| Prices, sizes, add-ons | `services` |
+| Turn a season on/off | `seasons` → `active` |
+| FAQ answers | `faq` |
+
+### Turning on snow shoveling this winter
+
+Winter services are already built in and priced. They show as **"Coming soon"** and the booking form treats them as a **snow waitlist**, so you can collect customers before the first storm.
+
+When you're ready, open `config.js` and change one line:
+
+```js
+{ id: "winter", ..., active: false }   // → active: true
+```
+
+### Adding a new service later
+
+Copy any entry in `services`, give it a new `id`, `name`, `seasons` and `pricing`, and it automatically shows up in the cards, the estimator, the comparison table and the booking form. Three pricing types are supported:
+
+- `tiered`: fixed price per size (yards, driveways)
+- `hourly`: rate per crew member per hour, with a minimum
+- `perUnit`: rate per bag, cubic yard, etc., with a minimum
+
+## Getting booking requests
+
+Every request from the booking form is **emailed to you** through [FormSubmit](https://formsubmit.co), a free service that needs no account. The address is the end of `business.formEndpoint` in `config.js` (currently `adamsjuan257@gmail.com`).
+
+**One-time setup:** the very first request sends an activation email from FormSubmit to that inbox. Click the link in it, and every request after that arrives as an email with the customer's details in a table. Hit **Reply** to answer the customer directly. Do a test booking on the live site yourself to trigger this, and check spam if you don't see it.
+
+If sending ever fails (before activation, or no internet), the customer sees their request ready to copy and text or email to you, so no request is lost.
+
+To use a different inbox, change the email at the end of `formEndpoint` (it needs its own one-time activation). A [Formspree](https://formspree.io) form URL also works there if you'd rather have a dashboard of past requests.
+
+## Photos
+
+The background photos come from [Wikimedia Commons](https://commons.wikimedia.org) and aren't stored in this folder. Each time Vercel builds the site, `fetch-photos.mjs` downloads them and writes each photographer's name and license into the footer (their Creative Commons licenses require that credit). If a download fails, the build fails, so the live site never shows a broken picture.
+
+To swap a photo, find one on Commons and put its exact file name in the `PHOTOS` list in `fetch-photos.mjs`. When you open `index.html` straight from your computer, the photos show as autumn-colored placeholders instead.
+
+## Preview and publish
+
+- **Live site:** https://leavesaway.vercel.app, on the Vercel project `campus-yard-crew`. Its settings are: root directory `yard-crew`, build command `node fetch-photos.mjs`, output directory `dist`.
+- **Preview locally:** double-click `index.html` (photos show as placeholders).
+- **Other hosts** (Netlify, GitHub Pages): run `node fetch-photos.mjs` once and publish the `dist` folder it creates.
+
+---
+
+## Pricing rationale
+
+Prices are set to be **clearly cheaper than professional landscaping and snow companies** but still pay the crew well. At the medium-yard price, a 2-person crew raking a typical ¼-acre lot in about 2 hours makes **$120, or about $30 per person per hour**, well above typical campus jobs.
+
+National 2026 cost guides were used as the benchmark. Your local market may be higher (big metro areas) or lower (rural areas), so **check two or three local competitors (Google, Nextdoor, Facebook Marketplace) and adjust `config.js`**.
+
+| Service | Our price | Typical pro price | Source |
+| --- | --- | --- | --- |
+| Leaf raking & bagging | $75 / $120 / $195 by yard size | $160–$290 for a ¼-acre yard; avg. ≈ $170/visit; raking labor $25–$50/hr | Lawn Love, LawnStarter |
+| Bag haul-away | $5/bag | $5–$10/bag | LawnStarter |
+| Yard cleanup (fall) | $25 per crew member/hr, 2 crew-hr minimum | $40–$80/hr | Jobber / lawn-care guides |
+| Driveway shoveling | $30 / $40 / $55 per storm | $30–$75 per visit | Housecall Pro, Lawn Love |
+| Ice melt | +$15 | $20–$60 per application | Housecall Pro, Lawn Love |
+| Snow season plan | $260 / $325 / $425 | $350–$600 per season (avg. ≈ $700) | Housecall Pro, Lawn Love |
+
+**Why these numbers work:**
+
+- **Leaf raking is the money-maker.** Pros charge $160+ for a typical yard; at $120 you're about 25–40% cheaper and still earn about $30/hr each.
+- **Shoveling is priced at the low end of the pro range,** not drastically below it. Those markets already include cheap competitors (neighborhood kids, people with plows), and pricing too low makes people doubt your quality.
+- **Recurring discount (10%)** for repeat leaf visits keeps your schedule full. Pros give 10–25% off for recurring service.
+- **The snow season plan is capped at 12 storms** (extra storms $25 each) so a brutal winter doesn't wipe out your profit.
+- **Heavy snow surcharge (+50% over 8")** because hand-shoveling deep snow takes 2–3 times as long.
+
+**Sources:**
+
+- [Lawn Love: Leaf removal cost 2026](https://lawnlove.com/blog/?p=12523)
+- [LawnStarter: Leaf removal price](https://www.lawnstarter.com/blog/cost/leaf-removal-price/)
+- [GreenPal: Leaf removal cost](https://www.yourgreenpal.com/blog/how-much-does-leaf-removal-cost)
+- [Jobber: Lawn care pricing guide (2026)](https://getjobber.com/academy/lawn-care/how-to-price-out-lawn-care-services/)
+- [Housecall Pro: Snow removal prices](https://www.housecallpro.com/resources/snow-removal-prices/)
+- [Lawn Love: Snow removal cost 2026](https://lawnlove.com/blog/?p=13176)
+
+## Before you launch: quick business checklist
+
+- **Liability insurance.** A cheap general-liability policy for a small lawn business protects you if someone's property gets damaged. The FAQ tells customers to ask about coverage, so update that answer once you have it.
+- **Local rules.** Some towns require a basic business license, even for small side gigs.
+- **Taxes.** Side income is taxable. Track what you earn and what you spend (gas, bags, rakes, salt).
+- **Payments.** Set up Venmo Business or Zelle so payments look professional and are easy to track.
+- **Marketing.** Door-hangers with a QR code to the site, Nextdoor posts, and asking happy customers for referrals (the site advertises $10 off for both).

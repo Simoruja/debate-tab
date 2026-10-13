@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Leaves Away</title>
+    <meta
+      name="description"
+      content="Leaves Away: leaf raking, yard cleanup and snow shoveling by four college students in Chestnut Hill and Newton."
+    />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍂</text></svg>" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Gochi+Hand&family=Figtree:wght@400;500;600;700&display=swap" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="config.js" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="#top">
+          <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
+            <path d="M16 3c6 5 9 10 9 15a9 9 0 0 1-18 0c0-5 3-10 9-15Z" />
+            <path class="brand-vein" d="M16 9v20M16 16l-4-3M16 21l5-4" />
+          </svg>
+          <span data-bind="name">Leaves Away</span>
+        </a>
+        <nav aria-label="Main">
+          <ul class="nav-links">
+            <li><a href="#hello">Who we are</a></li>
+            <li><a href="#services">Prices</a></li>
+            <li><a href="#estimate">Estimate</a></li>
+            <li><a href="#faq">FAQ</a></li>
+          </ul>
+        </nav>
+        <a class="btn btn-small" href="#book">Book a job</a>
+      </div>
+    </header>
+
+    <main id="main">
+      <!-- Hero: full-bleed rake photo with falling leaves drawn on a canvas -->
+      <section class="hero" id="top">
+        <div class="hero-photo" aria-hidden="true"></div>
+        <canvas class="hero-leaves" id="hero-leaves" aria-hidden="true"></canvas>
+        <div class="container hero-inner">
+          <div class="hero-copy">
+            <h1 class="wordmark">
+              Leaves<br /><span class="wordmark-away">Away<svg class="squiggle" viewBox="0 0 300 24" preserveAspectRatio="none" aria-hidden="true"><path d="M4 14c22-9 40 7 62-1s38-10 60 0 40 8 62-1 40-9 58 1 30 6 50-3" /></svg></span>
+            </h1>
+            <p class="hero-tagline" data-bind="tagline"></p>
+            <p class="hero-note" id="hero-note">now booking</p>
+            <div class="hero-actions">
+              <a class="btn btn-leaf" href="#estimate">Get a price in 30 seconds</a>
+              <a class="btn btn-glass" href="#services">See all prices</a>
+            </div>
+          </div>
+          <aside class="price-tag" aria-label="Starting price">
+            <span class="price-tag-hole" aria-hidden="true"></span>
+            <span class="hero-season-icon" id="hero-season-icon" aria-hidden="true"></span>
+            <span class="price-tag-label">Starting at</span>
+            <span class="price-tag-price" id="hero-from-price">$75</span>
+            <span class="price-tag-service" id="hero-from-service">Leaf Raking &amp; Bagging</span>
+            <span class="scribble">bags included!</span>
+            <!-- Leafy, the mascot, peeking over the tag -->
+            <svg class="leafy" viewBox="0 0 120 120" aria-hidden="true">
+              <g class="leafy-body">
+                <path class="leafy-leaf" d="M60 8c26 18 40 40 40 62a40 40 0 0 1-80 0C20 48 34 26 60 8Z" />
+                <path class="leafy-vein" d="M60 22v86M60 52l-16-12M60 52l16-12M60 76l-20-14M60 76l20-14" />
+                <circle class="leafy-cheek" cx="40" cy="78" r="6" />
+                <circle class="leafy-cheek" cx="80" cy="78" r="6" />
+                <circle class="leafy-eye" cx="47" cy="66" r="5.5" />
+                <circle class="leafy-eye" cx="73" cy="66" r="5.5" />
+                <circle class="leafy-shine" cx="49" cy="64" r="1.8" />
+                <circle class="leafy-shine" cx="75" cy="64" r="1.8" />
+                <path class="leafy-smile" d="M50 82c6 7 14 7 20 0" />
+              </g>
+            </svg>
+          </aside>
+        </div>
+      </section>
+
+      <!-- A note from the crew -->
+      <section class="section hello" id="hello">
+        <div class="container hello-layout">
+          <div class="polaroids" aria-label="Photos">
+            <figure class="polaroid polaroid-a">
+              <div class="photo photo-raking" role="img" aria-label="A leaf rake in the yard"></div>
+              <figcaption>our 5th coworker</figcaption>
+            </figure>
+            <figure class="polaroid polaroid-b">
+              <div class="photo photo-pile" role="img" aria-label="Fallen autumn leaves"></div>
+              <figcaption>the before (yikes)</figcaption>
+            </figure>
+          </div>
+          <div class="letter">
+            <h2>Hi! We'd rather rake your leaves than sit on the couch.<span class="scribble letter-aside">(our moms agree)</span></h2>
+            <p class="lead" data-bind="pitch"></p>
+            <p>
+              Every fall we'd walk past yards buried in leaves and think: we could do that. So now we do. We show up when
+              we say we will, we chase down every last leaf (even the sneaky ones under the bushes), and we text you a
+              photo when we're done so you can see the difference.
+            </p>
+            <ul class="promises">
+              <li><strong>No surprise prices.</strong> You see the price before we start, and it never goes up without your OK.</li>
+              <li><strong>Same four goofballs every time.</strong> No random subcontractors, ever.</li>
+              <li><strong>Pay after.</strong> Venmo, Zelle or cash once you're happy with the job.</li>
+              <li><strong>We will not jump in your leaf pile.</strong> Unless you ask. Then we absolutely will.</li>
+            </ul>
+            <ul class="crew-list" id="crew-list" aria-label="The crew"></ul>
+            <p class="signature">Asita, Matthew, Thant &amp; Juan</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Services and prices; the banner photo changes with the season tab -->
+      <section class="section section-alt" id="services" data-season="fall">
+        <div class="container">
+          <div class="season-photo" aria-hidden="true">
+            <div class="season-photo-img season-fall"></div>
+            <div class="season-photo-img season-winter"></div>
+            <p class="season-photo-note">pick a season ↓</p>
+          </div>
+          <div class="section-head">
+            <h2>Stuff we're weirdly good at</h2>
+            <p>Simple prices, no surprise fees, no fine print in tiny letters. Pick a season to see what we do.</p>
+          </div>
+          <div class="season-tabs" role="tablist" aria-label="Seasons" id="season-tabs"></div>
+          <div id="season-banner" class="season-banner" hidden></div>
+          <div class="service-grid" id="service-grid" role="tabpanel"></div>
+        </div>
+      </section>
+
+      <section class="section" id="estimate">
+        <div class="container estimate-layout">
+          <div class="section-head">
+            <h2>How much? Find out in 30 seconds.</h2>
+            <p>Pick a service and how big your yard or driveway is. No email, no sales call, no "let me check with my manager." We confirm the final number before we start.</p>
+            <p class="scribble scribble-arrow">go on, poke the buttons →</p>
+          </div>
+          <form class="card estimator" id="estimator" novalidate>
+            <label class="field">
+              <span>Service</span>
+              <select id="est-service"></select>
+            </label>
+            <div id="est-inputs"></div>
+            <div id="est-extras"></div>
+            <label class="check" id="est-recurring-wrap" hidden>
+              <input type="checkbox" id="est-recurring" />
+              <span id="est-recurring-label">Recurring service</span>
+            </label>
+            <div class="est-total">
+              <span>Estimated total</span>
+              <output id="est-total" aria-live="polite">$0</output>
+            </div>
+            <p class="est-compare" id="est-compare"></p>
+            <button type="button" class="btn btn-block" id="est-book">Book this job</button>
+          </form>
+        </div>
+      </section>
+
+      <!-- Full-width photo break -->
+      <section class="photo-break" aria-label="You get your Saturday back">
+        <div class="photo-break-img" aria-hidden="true"></div>
+        <div class="container">
+          <p class="photo-break-quote">You get your Saturday back.<span>We get sweaty. Everybody wins.</span></p>
+        </div>
+      </section>
+
+      <section class="section" id="compare">
+        <div class="container">
+          <div class="section-head">
+            <h2>How we compare</h2>
+            <p>Typical professional prices come from 2026 national cost guides. Big landscaping companies around here usually charge even more.</p>
+          </div>
+          <div class="table-wrap">
+            <table class="compare-table">
+              <thead>
+                <tr>
+                  <th scope="col">Service</th>
+                  <th scope="col">Leaves Away</th>
+                  <th scope="col">Typical pro crew</th>
+                </tr>
+              </thead>
+              <tbody id="compare-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-alt" id="how">
+        <div class="container">
+          <div class="section-head">
+            <h2>How it works</h2>
+          </div>
+          <ol class="steps">
+            <li>
+              <h3>You ask</h3>
+              <p>Fill out the form below or text us. Tell us what you need and roughly how big the yard is.</p>
+            </li>
+            <li>
+              <h3>We say yes (probably)</h3>
+              <p>We reply within 24 hours with a firm price and a time that works for you.</p>
+            </li>
+            <li>
+              <h3>We rake like it's a sport</h3>
+              <p>We show up with rakes, bags and way too much energy, get it done, and send you a before-and-after photo.</p>
+            </li>
+            <li>
+              <h3>You pay, we high-five</h3>
+              <p>Venmo, Zelle or cash once you're happy, and then we go looking for the next pile.</p>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="section" id="faq">
+        <div class="container faq-layout">
+          <div>
+            <h2>Where we work</h2>
+            <p>We're based in <span data-bind="city"></span> and cover these neighborhoods:</p>
+            <ul class="area-list" id="area-list"></ul>
+            <p class="muted">Just outside the list? Ask anyway. If a few neighbors book together, we'll make the trip.</p>
+          </div>
+          <div>
+            <h2>Questions</h2>
+            <div class="faq-list" id="faq-list"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-book" id="book">
+        <div class="container narrow">
+          <div class="section-head">
+            <h2 id="book-title">Book the leaf goblins</h2>
+            <p id="book-sub">Send us a request and one of us will get back to you within 24 hours to lock in a time and price. Pinky promise.</p>
+          </div>
+          <form class="card booking" id="booking-form">
+            <div class="form-row">
+              <label class="field">
+                <span>Name</span>
+                <input name="name" id="book-name" autocomplete="name" required />
+              </label>
+              <label class="field">
+                <span>Phone</span>
+                <input name="phone" id="book-phone" type="tel" autocomplete="tel" required />
+              </label>
+            </div>
+            <label class="field">
+              <span>Email</span>
+              <input name="email" id="book-email" type="email" autocomplete="email" required />
+            </label>
+            <label class="field">
+              <span>Address</span>
+              <input name="address" id="book-address" autocomplete="street-address" required />
+            </label>
+            <fieldset class="field">
+              <legend>What do you need?</legend>
+              <div class="service-checks" id="booking-services"></div>
+            </fieldset>
+            <div class="form-row">
+              <label class="field">
+                <span>Preferred date</span>
+                <input name="date" id="book-date" type="date" />
+              </label>
+              <label class="field">
+                <span>Best time</span>
+                <select name="time" id="book-time">
+                  <option>Anytime</option>
+                  <option>Morning</option>
+                  <option>Afternoon</option>
+                  <option>Weekend</option>
+                </select>
+              </label>
+            </div>
+            <label class="field">
+              <span>Anything we should know?</span>
+              <textarea name="notes" id="book-notes" rows="3" placeholder="Gate code, a very friendly dog, the back corner where leaves go to hide..."></textarea>
+            </label>
+            <input type="hidden" name="estimate" id="booking-estimate" />
+            <p class="estimate-chip" id="booking-estimate-chip" hidden></p>
+            <button class="btn btn-block" type="submit" id="booking-submit">Send it to the crew</button>
+            <p class="form-status" id="booking-status" role="status"></p>
+            <p class="fine" id="booking-error-detail" hidden></p>
+            <div class="request-box" id="request-box" hidden>
+              <pre id="request-text"></pre>
+              <div class="request-actions">
+                <button type="button" class="btn btn-small" id="request-copy">Copy request</button>
+                <a class="btn btn-small btn-ghost" id="request-mail" href="#">Open in email app</a>
+              </div>
+            </div>
+          </form>
+          <p class="contact-alt">
+            Rather text or call? <a data-bind-href="tel" data-bind="phone" href="#"></a> ·
+            <a data-bind-href="mailto" data-bind="email" href="#"></a>
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <p>&copy; <span id="year"></span> <span data-bind="name"></span>. Student-run in <span data-bind="city"></span>.</p>
+        <p id="footer-social"></p>
+        <p class="credits">
+          <!-- photo-credits -->Photos from Wikimedia Commons. Credits are added when the site is built.<!-- /photo-credits -->
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

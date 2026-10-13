@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Standalone static site, not part of the Next.js app.
+    "yard-crew/**",
   ]),
 ]);
 
