@@ -9,6 +9,9 @@
       content="Student-run leaf raking, lawn mowing, yard cleanup and snow shoveling at fair prices."
     />
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍂</text></svg>" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600;700&display=swap" />
     <link rel="stylesheet" href="styles.css" />
     <script src="config.js" defer></script>
     <script src="app.js" defer></script>
@@ -220,6 +223,13 @@
             <p class="estimate-chip" id="booking-estimate-chip" hidden></p>
             <button class="btn btn-block" type="submit" id="booking-submit">Send request</button>
             <p class="form-status" id="booking-status" role="status"></p>
+            <div class="request-box" id="request-box" hidden>
+              <pre id="request-text"></pre>
+              <div class="request-actions">
+                <button type="button" class="btn btn-small" id="request-copy">Copy request</button>
+                <a class="btn btn-small btn-ghost" id="request-mail" href="#">Open in email app</a>
+              </div>
+            </div>
           </form>
           <p class="contact-alt">
             Rather text or call? <a data-bind-href="tel" data-bind="phone" href="#"></a> ·

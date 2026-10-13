@@ -467,15 +467,31 @@
         return;
       }
 
-      // No form backend configured: hand off to the customer's email app.
+      // No form backend configured: show the filled-in request so the
+      // customer can copy it into a text or email, or open their email app.
       const body = Object.entries(payload)
         .map(([k, v]) => `${k}: ${v}`)
         .join("\n");
       const subject = `${waitlist.length ? "Waitlist" : "Job request"}: ${names.join(", ")}`;
-      window.location.href =
+      $("#request-text").textContent = body;
+      $("#request-mail").href =
         `mailto:${biz.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-      status.textContent = `Your email app should open with the request filled in. If it doesn't, email ${biz.email} or text ${biz.phone}.`;
+      $("#request-box").hidden = false;
+      status.textContent = `Your request is ready. Copy it and text it to ${biz.phone} or email it to ${biz.email}.`;
       status.classList.add("success");
+    });
+
+    $("#request-copy").addEventListener("click", async () => {
+      const button = $("#request-copy");
+      try {
+        await navigator.clipboard.writeText($("#request-text").textContent);
+        button.textContent = "Copied";
+      } catch {
+        // Clipboard refused: select the text so the customer can copy it.
+        getSelection().selectAllChildren($("#request-text"));
+        button.textContent = "Text selected, press Copy";
+      }
+      setTimeout(() => (button.textContent = "Copy request"), 2500);
     });
   }
 
