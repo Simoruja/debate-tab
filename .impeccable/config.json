@@ -1,0 +1,26 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "yard-crew/index.html"
+        ],
+        "createdAt": "2026-10-13T20:24:40.309Z",
+        "reason": "Claude triage: section, hero, photo-break, season-photo and table-wrap insets come from inner .container/cell padding the static scan doesn't resolve; rendered screenshots at 1280px and 390px show normal margins"
+      },
+      {
+        "rule": "tight-leading",
+        "value": "*",
+        "files": [
+          "yard-crew/index.html"
+        ],
+        "createdAt": "2026-10-13T20:24:40.316Z",
+        "reason": "Claude triage: the 0.86-1.0 line-height is on the giant display wordmark and photo-break headline, not body text"
+      }
+    ]
+  }
+}
