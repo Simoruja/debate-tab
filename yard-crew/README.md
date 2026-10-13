@@ -52,15 +52,15 @@ To use a different inbox, change the email at the end of `formEndpoint` (it need
 
 ## Photos
 
-The background photos are free Unsplash photos (Unsplash License, no attribution required, though the footer credits the photographers). They aren't stored in this folder. `fetch-photos.sh` downloads them each time Vercel builds the site, and the build fails if a download goes wrong, so the live site never shows a broken picture.
+The background photos come from [Wikimedia Commons](https://commons.wikimedia.org) and aren't stored in this folder. Each time Vercel builds the site, `fetch-photos.mjs` downloads them and writes each photographer's name and license into the footer (their Creative Commons licenses require that credit). If a download fails, the build fails, so the live site never shows a broken picture.
 
-To swap a photo, find one on [unsplash.com](https://unsplash.com), copy the ID at the end of its page URL, and replace the matching ID in `fetch-photos.sh`. When you open `index.html` straight from your computer, the photos show as autumn-colored placeholders instead.
+To swap a photo, find one on Commons and put its exact file name in the `PHOTOS` list in `fetch-photos.mjs`. When you open `index.html` straight from your computer, the photos show as autumn-colored placeholders instead.
 
 ## Preview and publish
 
-- **Live site:** https://leavesaway.vercel.app, on the Vercel project `campus-yard-crew`. Its settings are: root directory `yard-crew`, build command `sh fetch-photos.sh`, output directory `dist`.
+- **Live site:** https://leavesaway.vercel.app, on the Vercel project `campus-yard-crew`. Its settings are: root directory `yard-crew`, build command `node fetch-photos.mjs`, output directory `dist`.
 - **Preview locally:** double-click `index.html` (photos show as placeholders).
-- **Other hosts** (Netlify, GitHub Pages): run `sh fetch-photos.sh` once and publish the `dist` folder it creates.
+- **Other hosts** (Netlify, GitHub Pages): run `node fetch-photos.mjs` once and publish the `dist` folder it creates.
 
 ---
 

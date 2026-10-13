@@ -24,7 +24,7 @@
   --font-hand: "Caveat", "Segoe Print", "Bradley Hand", cursive;
 
   --radius: 14px;
-  /* Photos are downloaded at build time (see fetch-photos.sh). The gradients
+  /* Photos are downloaded at build time (see fetch-photos.mjs). The gradients
      underneath show if a photo is missing, e.g. when opening index.html locally. */
   --photo-rake: url("img/rake.jpg");
   --photo-raking: url("img/raking.jpg");
