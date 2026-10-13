@@ -14,17 +14,32 @@ rm -rf dist
 mkdir -p dist/img
 cp index.html styles.css config.js app.js dist/
 
+# Exit codes say which photo failed, because Vercel shows the exit code even
+# when the build log isn't handy: 10 x photo number + 1 (HTTP 401), 3 (403),
+# 4 (404), 9 (other 4xx), 5 (5xx), 0 (no response) or 7 (file too small).
+photo_number=0
 fetch_photo() {
   name=$1
   id=$2
   width=$3
+  photo_number=$((photo_number + 1))
   out="dist/img/$name.jpg"
-  curl -fsSL --retry 3 --max-time 60 -o "$out" \
-    "https://unsplash.com/photos/$id/download?force=true&w=$width"
+  status=$(curl -sSL --retry 3 --max-time 60 -o "$out" -w '%{http_code}' \
+    -A "Mozilla/5.0 (compatible; LeavesAwaySiteBuild/1.0)" \
+    "https://unsplash.com/photos/$id/download?force=true&w=$width" || echo 000)
+  case "$status" in
+    2??) ;;
+    401) echo "Photo '$name' ($id): HTTP 401" >&2; exit $((photo_number * 10 + 1)) ;;
+    403) echo "Photo '$name' ($id): HTTP 403" >&2; exit $((photo_number * 10 + 3)) ;;
+    404) echo "Photo '$name' ($id): HTTP 404" >&2; exit $((photo_number * 10 + 4)) ;;
+    4??) echo "Photo '$name' ($id): HTTP $status" >&2; exit $((photo_number * 10 + 9)) ;;
+    5??) echo "Photo '$name' ($id): HTTP $status" >&2; exit $((photo_number * 10 + 5)) ;;
+    *) echo "Photo '$name' ($id): no response" >&2; exit $((photo_number * 10)) ;;
+  esac
   size=$(wc -c < "$out")
   if [ "$size" -lt 20000 ]; then
     echo "Photo '$name' ($id) is only $size bytes, so it probably isn't an image." >&2
-    exit 1
+    exit $((photo_number * 10 + 7))
   fi
   echo "Downloaded $name.jpg ($size bytes)"
 }
