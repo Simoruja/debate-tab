@@ -28,7 +28,7 @@ window.YARD_CREW_CONFIG = {
     name: "Leaves Away",
     tagline: "Four college kids. Four rakes. Zero leaves left behind.",
     pitch:
-      "We're Asita, Matthew, Thant and Juan, four students based in Chestnut Hill. We rake, mow, tidy and shovel around Newton and nearby, for a lot less than the big landscaping companies (and with way more enthusiasm).",
+      "We're Asita, Matthew, Thant and Juan, four students based in Chestnut Hill. We rake, tidy up yards and shovel snow around Newton and nearby, for a lot less than the big landscaping companies (and with way more enthusiasm).",
     city: "Chestnut Hill",
     serviceArea: [
       "Chestnut Hill",
@@ -62,7 +62,6 @@ window.YARD_CREW_CONFIG = {
   // Months are 1-12. The site opens on the season that matches today's date.
   seasons: [
     { id: "fall", label: "Fall", icon: "leaf", months: [9, 10, 11], active: true },
-    { id: "spring", label: "Spring & Summer", icon: "sprout", months: [3, 4, 5, 6, 7, 8], active: true },
     {
       id: "winter",
       label: "Winter",
@@ -72,6 +71,16 @@ window.YARD_CREW_CONFIG = {
       comingSoonNote: "Snow shoveling starts this winter. Join the snow list now and you'll be first on our route when the flakes fly.",
     },
   ],
+
+  // The "Something else?" card and booking checkbox, for jobs that aren't on
+  // the price list. Requests come in like any other booking, with the
+  // customer's description in the notes.
+  otherHelp: {
+    name: "Something else",
+    heading: "Need help with something else?",
+    description:
+      "Hauling junk to the curb, planting a few things, clearing out a shed, helping with a garden project... If it's outdoors and doesn't need a ladder, ask us. We'll tell you honestly if we can do it and what it'll cost.",
+  },
 
   // Applied when the customer ticks "recurring" in the estimator.
   recurringDiscountPercent: 10,
@@ -104,7 +113,7 @@ window.YARD_CREW_CONFIG = {
     },
     {
       id: "yard-cleanup",
-      seasons: ["fall", "spring"],
+      seasons: ["fall"],
       name: "Yard Cleanup",
       description:
         "Seasonal cleanup: clear sticks and debris, weed and edge beds, cut back plants, and leave the yard looking sharp.",
@@ -118,44 +127,6 @@ window.YARD_CREW_CONFIG = {
       },
       proRange: "$40–$80",
       proNote: "per hour",
-    },
-
-    // ----------------------- SPRING & SUMMER -----------------------
-    {
-      id: "mowing",
-      seasons: ["spring"],
-      name: "Lawn Mowing",
-      featured: true,
-      description: "Nice straight stripes, crisp edges along walks and beds, clippings blown off the pavement. Your lawn will look ready for picture day.",
-      pricing: {
-        type: "tiered",
-        unit: "per visit",
-        tiers: [
-          { label: "Small yard (up to ~⅛ acre)", price: 35 },
-          { label: "Medium yard (~¼ acre)", price: 45 },
-          { label: "Large yard (~½ acre)", price: 60 },
-        ],
-        overNote: "Overgrown first cut or bigger lot? We'll quote it.",
-      },
-      recurring: "weekly or every 2 weeks",
-      proRange: "$43–$72",
-      proNote: "per visit",
-    },
-    {
-      id: "mulch",
-      seasons: ["spring"],
-      name: "Mulch Spreading",
-      description:
-        "We spread fresh mulch in your beds. You buy the mulch (or we pick it up and pass along the receipt at cost).",
-      pricing: {
-        type: "perUnit",
-        rate: 30,
-        unit: "cubic yard",
-        minUnits: 2,
-        note: "Labor only. Mulch itself billed at cost.",
-      },
-      proRange: "$25–$70",
-      proNote: "labor per cubic yard",
     },
 
     // ---------------------------- WINTER ----------------------------

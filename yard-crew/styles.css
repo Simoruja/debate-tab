@@ -33,10 +33,8 @@
   --photo-rake: url("img/rake.jpg");
   --photo-raking: url("img/raking.jpg");
   --photo-pile: url("img/leaf-pile.jpg");
-  --photo-mower: url("img/mower.jpg");
   --photo-snow: url("img/snow.jpg");
   --fallback-fall: linear-gradient(135deg, #7a3a16 0%, #c9661f 45%, #e3a13c 100%);
-  --fallback-spring: linear-gradient(135deg, #1d4428 0%, #3f7a3c 55%, #8bb35a 100%);
   --fallback-winter: linear-gradient(135deg, #3d5670 0%, #8ea7bf 55%, #e8eef4 100%);
   color-scheme: light;
 }
@@ -856,16 +854,11 @@ a {
   background: var(--photo-pile) center 40% / cover no-repeat, var(--fallback-fall);
 }
 
-.season-spring {
-  background: var(--photo-mower) center / cover no-repeat, var(--fallback-spring);
-}
-
 .season-winter {
   background: var(--photo-snow) center 55% / cover no-repeat, var(--fallback-winter);
 }
 
 #services[data-season="fall"] .season-fall,
-#services[data-season="spring"] .season-spring,
 #services[data-season="winter"] .season-winter {
   opacity: 1;
   transform: scale(1);
@@ -928,6 +921,18 @@ a {
 .service-card {
   display: flex;
   flex-direction: column;
+}
+
+/* "Something else?" sits apart from the priced services: dashed, like a
+   note to fill in, with no price on it. */
+.other-card {
+  border-style: dashed;
+  background: transparent;
+  box-shadow: none;
+}
+
+.service-card.other-card .btn {
+  margin-top: auto;
 }
 
 .service-card.featured {

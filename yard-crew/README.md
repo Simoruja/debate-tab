@@ -4,7 +4,8 @@ The website for **Leaves Away**, a student-run raking, landscaping and (later) s
 
 ## What's on the site
 
-- **Services & prices by season.** Fall, Spring & Summer, and Winter tabs. The site opens on whatever season it currently is.
+- **Services & prices by season.** Fall and Winter tabs. The site opens on whatever season it currently is.
+- **"Need help with something else?"** A card under the prices and a booking checkbox for jobs that aren't on the price list. The customer describes the job in the notes and you quote it. Edit the wording under `otherHelp` in `config.js`, or delete that block to remove it.
 - **Instant estimate.** Customers pick a service, a yard or driveway size and any add-ons, and get a price right away. They can send that estimate along with their booking.
 - **"How we compare" table.** Your prices next to typical professional prices.
 - **Booking form.** Sends requests to your email (see below).
@@ -74,9 +75,7 @@ National 2026 cost guides were used as the benchmark. Your local market may be h
 | --- | --- | --- | --- |
 | Leaf raking & bagging | $75 / $120 / $195 by yard size | $160–$290 for a ¼-acre yard; avg. ≈ $170/visit; raking labor $25–$50/hr | Lawn Love, LawnStarter |
 | Bag haul-away | $5/bag | $5–$10/bag | LawnStarter |
-| Yard cleanup (fall/spring) | $25 per crew member/hr, 2 crew-hr minimum | $40–$80/hr | Jobber / lawn-care guides |
-| Lawn mowing | $35 / $45 / $60 by yard size | $43–$72 per visit | Jobber |
-| Mulch spreading | $30 per cubic yard (labor) | $25–$70 per cubic yard (labor) | Inch Calculator, Lawn Love |
+| Yard cleanup (fall) | $25 per crew member/hr, 2 crew-hr minimum | $40–$80/hr | Jobber / lawn-care guides |
 | Driveway shoveling | $30 / $40 / $55 per storm | $30–$75 per visit | Housecall Pro, Lawn Love |
 | Ice melt | +$15 | $20–$60 per application | Housecall Pro, Lawn Love |
 | Snow season plan | $260 / $325 / $425 | $350–$600 per season (avg. ≈ $700) | Housecall Pro, Lawn Love |
@@ -84,8 +83,8 @@ National 2026 cost guides were used as the benchmark. Your local market may be h
 **Why these numbers work:**
 
 - **Leaf raking is the money-maker.** Pros charge $160+ for a typical yard; at $120 you're about 25–40% cheaper and still earn about $30/hr each.
-- **Mowing and shoveling are priced at the low end of the pro range,** not drastically below it. Those markets already include cheap competitors (neighborhood kids, people with plows), and pricing too low makes people doubt your quality.
-- **Recurring discount (10%)** for mowing and repeat leaf visits keeps your schedule full. Pros give 10–25% off for recurring service.
+- **Shoveling is priced at the low end of the pro range,** not drastically below it. Those markets already include cheap competitors (neighborhood kids, people with plows), and pricing too low makes people doubt your quality.
+- **Recurring discount (10%)** for repeat leaf visits keeps your schedule full. Pros give 10–25% off for recurring service.
 - **The snow season plan is capped at 12 storms** (extra storms $25 each) so a brutal winter doesn't wipe out your profit.
 - **Heavy snow surcharge (+50% over 8")** because hand-shoveling deep snow takes 2–3 times as long.
 
@@ -94,9 +93,7 @@ National 2026 cost guides were used as the benchmark. Your local market may be h
 - [Lawn Love: Leaf removal cost 2026](https://lawnlove.com/blog/?p=12523)
 - [LawnStarter: Leaf removal price](https://www.lawnstarter.com/blog/cost/leaf-removal-price/)
 - [GreenPal: Leaf removal cost](https://www.yourgreenpal.com/blog/how-much-does-leaf-removal-cost)
-- [Jobber: How much to charge for lawn mowing (2026)](https://getjobber.com/academy/lawn-care/how-to-price-out-lawn-care-services/)
-- [Inch Calculator: Mulch installation cost](https://www.inchcalculator.com/mulch-landscaping-cost-guide/)
-- [Lawn Love: Mulch cost](https://lawnlove.com/blog/?p=13168)
+- [Jobber: Lawn care pricing guide (2026)](https://getjobber.com/academy/lawn-care/how-to-price-out-lawn-care-services/)
 - [Housecall Pro: Snow removal prices](https://www.housecallpro.com/resources/snow-removal-prices/)
 - [Lawn Love: Snow removal cost 2026](https://lawnlove.com/blog/?p=13176)
 

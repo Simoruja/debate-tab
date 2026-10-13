@@ -17,7 +17,6 @@ const PHOTOS = [
   { name: "rake", file: "Leaf rake and leaves.jpg", width: 1920 },
   { name: "raking", file: "Fan-shaped leaf rake.jpg", width: 960 },
   { name: "leaf-pile", file: "Autumn Leaves (22498001985).jpg", width: 1920 },
-  { name: "mower", file: "Lawn-Mowing.jpg", width: 1920 },
   { name: "snow", file: "Shoveling snow, Seattle, 1923.jpg", width: 1920 },
 ];
 

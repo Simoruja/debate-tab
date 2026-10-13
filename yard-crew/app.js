@@ -181,11 +181,34 @@
     banner.hidden = season.active;
     banner.textContent = season.active ? "" : season.comingSoonNote || "Coming soon.";
 
-    $("#service-grid").replaceChildren(...servicesFor(id).map((svc) => serviceCard(svc, season)));
+    const cards = servicesFor(id).map((svc) => serviceCard(svc, season));
+    if (cfg.otherHelp) cards.push(otherHelpCard());
+    $("#service-grid").replaceChildren(...cards);
+  }
+
+  // Jobs that aren't on the price list: send the customer to the booking form
+  // with "Something else" ticked and the notes box ready for a description.
+  const OTHER_ID = "other";
+
+  function otherHelpCard() {
+    return el(
+      "article",
+      { class: "card service-card other-card" },
+      el("h3", {}, cfg.otherHelp.heading),
+      el("p", { class: "muted" }, cfg.otherHelp.description),
+      el("p", { class: "fine" }, "No price list for these. Tell us what you need and we'll send you a quote."),
+      el("button", { type: "button", class: "btn btn-ghost btn-block", "data-ask-other": "" }, "Ask us about it")
+    );
   }
 
   function wireEstimateButtons() {
     document.addEventListener("click", (e) => {
+      if (e.target.closest("[data-ask-other]")) {
+        preselectBooking([OTHER_ID], "");
+        $("#book").scrollIntoView({ behavior: "smooth" });
+        $("#book-notes").focus({ preventScroll: true });
+        return;
+      }
       const btn = e.target.closest("[data-estimate]");
       if (!btn) return;
       const svc = cfg.services.find((s) => s.id === btn.dataset.estimate);
@@ -414,7 +437,15 @@
           el("input", { type: "checkbox", name: "services", value: svc.id }),
           el("span", {}, svc.name, isBookable(svc) ? null : el("span", { class: "badge badge-soon" }, "Waitlist"))
         )
-      )
+      ),
+      cfg.otherHelp
+        ? el(
+            "label",
+            { class: "check" },
+            el("input", { type: "checkbox", name: "services", value: OTHER_ID }),
+            el("span", {}, `${cfg.otherHelp.name} (tell us below)`)
+          )
+        : ""
     );
   }
 
@@ -444,8 +475,15 @@
         status.classList.add("error");
         return;
       }
-      const names = chosen.map((id) => cfg.services.find((s) => s.id === id).name);
-      const waitlist = chosen.filter((id) => !isBookable(cfg.services.find((s) => s.id === id)));
+      if (chosen.includes(OTHER_ID) && !String(data.get("notes") || "").trim()) {
+        status.textContent = "Tell us what you need help with in the \"Anything we should know?\" box, so we can quote it.";
+        status.classList.add("error");
+        $("#book-notes").focus();
+        return;
+      }
+      const serviceById = (id) => cfg.services.find((s) => s.id === id);
+      const names = chosen.map((id) => (id === OTHER_ID ? cfg.otherHelp.name : serviceById(id).name));
+      const waitlist = chosen.filter((id) => id !== OTHER_ID && !isBookable(serviceById(id)));
 
       const payload = {
         name: data.get("name"),
