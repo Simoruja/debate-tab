@@ -26,9 +26,9 @@
 window.YARD_CREW_CONFIG = {
   business: {
     name: "Leaves Away",
-    tagline: "Your yard, handled by four college kids who actually show up.",
+    tagline: "Four college kids. Four rakes. Zero leaves left behind.",
     pitch:
-      "We're Asita, Matthew, Thant and Juan, four students based in Chestnut Hill. We rake, mow, tidy and shovel around Newton and nearby, for a lot less than the big landscaping companies.",
+      "We're Asita, Matthew, Thant and Juan, four students based in Chestnut Hill. We rake, mow, tidy and shovel around Newton and nearby, for a lot less than the big landscaping companies (and with way more enthusiasm).",
     city: "Chestnut Hill",
     serviceArea: [
       "Chestnut Hill",
@@ -45,10 +45,10 @@ window.YARD_CREW_CONFIG = {
     email: "adamsjuan257@gmail.com",
     instagram: "", // e.g. "leavesaway" (leave blank to hide)
     crew: [
-      { name: "Asita", role: "Scheduling & quotes" },
-      { name: "Matthew", role: "Crew lead" },
-      { name: "Thant", role: "Equipment & logistics" },
-      { name: "Juan", role: "Customer follow-up" },
+      { name: "Asita", role: "Chief Leaf Officer" },
+      { name: "Matthew", role: "Rake Whisperer" },
+      { name: "Thant", role: "Head of Bags" },
+      { name: "Juan", role: "Snow Boss (in training)" },
     ],
     // Where booking requests are sent. FormSubmit (https://formsubmit.co)
     // emails every request to the address at the end of this URL, with no
@@ -61,15 +61,15 @@ window.YARD_CREW_CONFIG = {
 
   // Months are 1-12. The site opens on the season that matches today's date.
   seasons: [
-    { id: "fall", label: "Fall", icon: "🍂", months: [9, 10, 11], active: true },
-    { id: "spring", label: "Spring & Summer", icon: "🌱", months: [3, 4, 5, 6, 7, 8], active: true },
+    { id: "fall", label: "Fall", icon: "leaf", months: [9, 10, 11], active: true },
+    { id: "spring", label: "Spring & Summer", icon: "sprout", months: [3, 4, 5, 6, 7, 8], active: true },
     {
       id: "winter",
       label: "Winter",
-      icon: "❄️",
+      icon: "snowflake",
       months: [12, 1, 2],
       active: false, // flip to true when the crew is ready to shovel
-      comingSoonNote: "Snow shoveling launches this winter. Join the snow list and you'll be first on our route.",
+      comingSoonNote: "Snow shoveling starts this winter. Join the snow list now and you'll be first on our route when the flakes fly.",
     },
   ],
 
@@ -84,7 +84,7 @@ window.YARD_CREW_CONFIG = {
       name: "Leaf Raking & Bagging",
       featured: true,
       description:
-        "We rake lawns and beds, blow leaves off the driveway and walks, and bag everything for curbside pickup.",
+        "We rake lawns and beds, chase leaves off the driveway and walks, and bag every last one for curbside pickup. Yes, even the soggy ones.",
       pricing: {
         type: "tiered",
         unit: "per visit",
@@ -126,7 +126,7 @@ window.YARD_CREW_CONFIG = {
       seasons: ["spring"],
       name: "Lawn Mowing",
       featured: true,
-      description: "Mow, trim edges along walks and beds, and blow clippings off hard surfaces.",
+      description: "Nice straight stripes, crisp edges along walks and beds, clippings blown off the pavement. Your lawn will look ready for picture day.",
       pricing: {
         type: "tiered",
         unit: "per visit",
@@ -165,7 +165,7 @@ window.YARD_CREW_CONFIG = {
       name: "Driveway Shoveling",
       featured: true,
       description:
-        "Hand-shoveled driveway after each storm, cleared edge to edge so you can get out in the morning.",
+        "Hand-shoveled after every storm, edge to edge, so you can get to work and we can get to class.",
       pricing: {
         type: "tiered",
         unit: "per storm visit",
@@ -205,6 +205,10 @@ window.YARD_CREW_CONFIG = {
   ],
 
   faq: [
+    {
+      q: "Will you jump in the leaf pile?",
+      a: "Only with permission. Otherwise every leaf goes in a bag, like the professionals we are. Mostly.",
+    },
     {
       q: "Which towns do you cover?",
       a: "We're based in Chestnut Hill and work all over Newton, plus Brookline and Brighton. A little farther out? Ask anyway. If a few neighbors on your street book together, we'll make the trip.",

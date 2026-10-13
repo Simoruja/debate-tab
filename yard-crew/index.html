@@ -11,7 +11,7 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍂</text></svg>" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Caveat:wght@500;700&family=Figtree:wght@400;500;600;700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Gochi+Hand&family=Figtree:wght@400;500;600;700&display=swap" />
     <link rel="stylesheet" href="styles.css" />
     <script src="config.js" defer></script>
     <script src="app.js" defer></script>
@@ -47,9 +47,11 @@
         <canvas class="hero-leaves" id="hero-leaves" aria-hidden="true"></canvas>
         <div class="container hero-inner">
           <div class="hero-copy">
-            <p class="eyebrow" id="hero-eyebrow">Now booking</p>
-            <h1 class="wordmark">Leaves<br />Away</h1>
+            <h1 class="wordmark">
+              Leaves<br /><span class="wordmark-away">Away<svg class="squiggle" viewBox="0 0 300 24" preserveAspectRatio="none" aria-hidden="true"><path d="M4 14c22-9 40 7 62-1s38-10 60 0 40 8 62-1 40-9 58 1 30 6 50-3" /></svg></span>
+            </h1>
             <p class="hero-tagline" data-bind="tagline"></p>
+            <p class="hero-note" id="hero-note">now booking</p>
             <div class="hero-actions">
               <a class="btn btn-leaf" href="#estimate">Get a price in 30 seconds</a>
               <a class="btn btn-glass" href="#services">See all prices</a>
@@ -57,11 +59,25 @@
           </div>
           <aside class="price-tag" aria-label="Starting price">
             <span class="price-tag-hole" aria-hidden="true"></span>
-            <span class="hero-season-icon" id="hero-season-icon" aria-hidden="true">🍂</span>
+            <span class="hero-season-icon" id="hero-season-icon" aria-hidden="true"></span>
             <span class="price-tag-label">Starting at</span>
             <span class="price-tag-price" id="hero-from-price">$75</span>
             <span class="price-tag-service" id="hero-from-service">Leaf Raking &amp; Bagging</span>
             <span class="scribble">bags included!</span>
+            <!-- Leafy, the mascot, peeking over the tag -->
+            <svg class="leafy" viewBox="0 0 120 120" aria-hidden="true">
+              <g class="leafy-body">
+                <path class="leafy-leaf" d="M60 8c26 18 40 40 40 62a40 40 0 0 1-80 0C20 48 34 26 60 8Z" />
+                <path class="leafy-vein" d="M60 22v86M60 52l-16-12M60 52l16-12M60 76l-20-14M60 76l20-14" />
+                <circle class="leafy-cheek" cx="40" cy="78" r="6" />
+                <circle class="leafy-cheek" cx="80" cy="78" r="6" />
+                <circle class="leafy-eye" cx="47" cy="66" r="5.5" />
+                <circle class="leafy-eye" cx="73" cy="66" r="5.5" />
+                <circle class="leafy-shine" cx="49" cy="64" r="1.8" />
+                <circle class="leafy-shine" cx="75" cy="64" r="1.8" />
+                <path class="leafy-smile" d="M50 82c6 7 14 7 20 0" />
+              </g>
+            </svg>
           </aside>
         </div>
       </section>
@@ -72,26 +88,26 @@
           <div class="polaroids" aria-label="Photos">
             <figure class="polaroid polaroid-a">
               <div class="photo photo-raking" role="img" aria-label="A leaf rake in the yard"></div>
-              <figcaption>Saturday mornings</figcaption>
+              <figcaption>our 5th coworker</figcaption>
             </figure>
             <figure class="polaroid polaroid-b">
               <div class="photo photo-pile" role="img" aria-label="Fallen autumn leaves"></div>
-              <figcaption>the before</figcaption>
+              <figcaption>the before (yikes)</figcaption>
             </figure>
           </div>
           <div class="letter">
-            <p class="eyebrow eyebrow-dark">Hi, neighbor</p>
-            <h2>We'd rather be raking your leaves than sitting on the couch.</h2>
+            <h2>Hi! We'd rather rake your leaves than sit on the couch.<span class="scribble letter-aside">(our moms agree)</span></h2>
             <p class="lead" data-bind="pitch"></p>
             <p>
-              We started Leaves Away because every fall we'd walk past yards buried in leaves and think, we could do that,
-              and do it well. We show up when we say we will, we bag every last leaf, and we text you a photo when
-              we're done. You get your Saturday back.
+              Every fall we'd walk past yards buried in leaves and think: we could do that. So now we do. We show up when
+              we say we will, we chase down every last leaf (even the sneaky ones under the bushes), and we text you a
+              photo when we're done so you can see the difference.
             </p>
             <ul class="promises">
-              <li><strong>Fair, upfront prices.</strong> You see the price before we start, and it never goes up without your OK.</li>
-              <li><strong>The same faces every time.</strong> No random subcontractors. It's us.</li>
+              <li><strong>No surprise prices.</strong> You see the price before we start, and it never goes up without your OK.</li>
+              <li><strong>Same four goofballs every time.</strong> No random subcontractors, ever.</li>
               <li><strong>Pay after.</strong> Venmo, Zelle or cash once you're happy with the job.</li>
+              <li><strong>We will not jump in your leaf pile.</strong> Unless you ask. Then we absolutely will.</li>
             </ul>
             <ul class="crew-list" id="crew-list" aria-label="The crew"></ul>
             <p class="signature">Asita, Matthew, Thant &amp; Juan</p>
@@ -109,8 +125,8 @@
             <p class="season-photo-note">pick a season ↓</p>
           </div>
           <div class="section-head">
-            <h2>What we do, and what it costs</h2>
-            <p>Simple prices, no surprise fees. Pick a season to see what we offer.</p>
+            <h2>Stuff we're weirdly good at</h2>
+            <p>Simple prices, no surprise fees, no fine print in tiny letters. Pick a season to see what we do.</p>
           </div>
           <div class="season-tabs" role="tablist" aria-label="Seasons" id="season-tabs"></div>
           <div id="season-banner" class="season-banner" hidden></div>
@@ -121,9 +137,9 @@
       <section class="section" id="estimate">
         <div class="container estimate-layout">
           <div class="section-head">
-            <h2>Get a price right now</h2>
-            <p>Pick a service and how big your yard or driveway is. We'll confirm the final number before we start.</p>
-            <p class="scribble scribble-arrow">no email needed to see a price →</p>
+            <h2>How much? Find out in 30 seconds.</h2>
+            <p>Pick a service and how big your yard or driveway is. No email, no sales call, no "let me check with my manager." We confirm the final number before we start.</p>
+            <p class="scribble scribble-arrow">go on, poke the buttons →</p>
           </div>
           <form class="card estimator" id="estimator" novalidate>
             <label class="field">
@@ -150,7 +166,7 @@
       <section class="photo-break" aria-label="You get your Saturday back">
         <div class="photo-break-img" aria-hidden="true"></div>
         <div class="container">
-          <p class="photo-break-quote">You get your Saturday back.<span>We get the rakes out.</span></p>
+          <p class="photo-break-quote">You get your Saturday back.<span>We get sweaty. Everybody wins.</span></p>
         </div>
       </section>
 
@@ -182,20 +198,20 @@
           </div>
           <ol class="steps">
             <li>
-              <h3>Ask</h3>
+              <h3>You ask</h3>
               <p>Fill out the form below or text us. Tell us what you need and roughly how big the yard is.</p>
             </li>
             <li>
-              <h3>Confirm</h3>
+              <h3>We say yes (probably)</h3>
               <p>We reply within 24 hours with a firm price and a time that works for you.</p>
             </li>
             <li>
-              <h3>We get to work</h3>
-              <p>We show up with rakes, bags and a mower, get it done, and send you a photo.</p>
+              <h3>We rake like it's a sport</h3>
+              <p>We show up with rakes, bags and a mower, get it done, and send you a before-and-after photo.</p>
             </li>
             <li>
-              <h3>Pay after</h3>
-              <p>Venmo, Zelle or cash once you're happy. That's it.</p>
+              <h3>You pay, we high-five</h3>
+              <p>Venmo, Zelle or cash once you're happy, and then we go looking for the next pile.</p>
             </li>
           </ol>
         </div>
@@ -219,8 +235,8 @@
       <section class="section section-book" id="book">
         <div class="container narrow">
           <div class="section-head">
-            <h2 id="book-title">Book a job</h2>
-            <p id="book-sub">Send us a request and one of us will get back to you within 24 hours to lock in a time and price.</p>
+            <h2 id="book-title">Book the leaf goblins</h2>
+            <p id="book-sub">Send us a request and one of us will get back to you within 24 hours to lock in a time and price. Pinky promise.</p>
           </div>
           <form class="card booking" id="booking-form">
             <div class="form-row">
@@ -262,11 +278,11 @@
             </div>
             <label class="field">
               <span>Anything we should know?</span>
-              <textarea name="notes" id="book-notes" rows="3" placeholder="Gate code, dog in the yard, extra-leafy back corner..."></textarea>
+              <textarea name="notes" id="book-notes" rows="3" placeholder="Gate code, a very friendly dog, the back corner where leaves go to hide..."></textarea>
             </label>
             <input type="hidden" name="estimate" id="booking-estimate" />
             <p class="estimate-chip" id="booking-estimate-chip" hidden></p>
-            <button class="btn btn-block" type="submit" id="booking-submit">Send request</button>
+            <button class="btn btn-block" type="submit" id="booking-submit">Send it to the crew</button>
             <p class="form-status" id="booking-status" role="status"></p>
             <p class="fine" id="booking-error-detail" hidden></p>
             <div class="request-box" id="request-box" hidden>

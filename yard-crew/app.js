@@ -8,6 +8,21 @@
   const $ = (sel) => document.querySelector(sel);
   const money = (n) => "$" + Math.round(n).toLocaleString("en-US");
 
+  // Hand-drawn season icons (config.js names one per season). One stroke style
+  // for all of them so they read as a set.
+  const ICONS = {
+    leaf: '<path d="M12 3c5 3.5 7.5 7.6 7.5 11.2A7.5 7.5 0 0 1 4.5 14.2C4.5 10.6 7 6.5 12 3Z"/><path d="M12 8v14M12 13l-3-2.4M12 17l3.4-2.6"/>',
+    sprout: '<path d="M12 21v-9"/><path d="M12 12c0-4-3-6.5-7.5-6.5 0 4.2 3 6.5 7.5 6.5Z"/><path d="M12 14.5c0-3.6 2.8-6 7-6 0 3.8-2.8 6-7 6Z"/><path d="M7.5 21h9"/>',
+    snowflake: '<path d="M12 2.5v19M3.8 7.2l16.4 9.6M3.8 16.8l16.4-9.6"/><path d="M9.5 3.8 12 6l2.5-2.2M9.5 20.2 12 18l2.5 2.2M3.2 10l3.1-.8-.9-3.1M20.8 14l-3.1.8.9 3.1M3.2 14l3.1.8-.9 3.1M20.8 10l-3.1-.8.9-3.1"/>',
+  };
+  function icon(name) {
+    const span = document.createElement("span");
+    span.className = "doodle-icon";
+    span.setAttribute("aria-hidden", "true");
+    span.innerHTML = `<svg viewBox="0 0 24 24">${ICONS[name] || ICONS.leaf}</svg>`;
+    return span;
+  }
+
   const seasonById = Object.fromEntries(cfg.seasons.map((s) => [s.id, s]));
   const servicesFor = (seasonId) => cfg.services.filter((s) => s.seasons.includes(seasonId));
   // A service is bookable if any of its seasons is active.
@@ -89,7 +104,7 @@
             "aria-selected": String(s.id === activeSeasonId),
             "data-season": s.id,
           },
-          el("span", { "aria-hidden": "true" }, s.icon + " "),
+          icon(s.icon),
           s.label,
           s.active ? null : el("span", { class: "badge badge-soon" }, "Soon")
         )
@@ -190,8 +205,8 @@
     const live = season.active ? season : cfg.seasons.find((s) => s.active) || season;
     const featured =
       servicesFor(live.id).find((s) => s.featured) || servicesFor(live.id)[0] || cfg.services[0];
-    $("#hero-eyebrow").textContent = `Now booking ${live.label.toLowerCase()} jobs in ${biz.city}`;
-    $("#hero-season-icon").textContent = live.icon;
+    $("#hero-note").textContent = `now booking ${live.label.toLowerCase()} jobs in ${biz.city}!`;
+    $("#hero-season-icon").replaceChildren(icon(live.icon));
     $("#hero-from-price").textContent = money(startingPrice(featured));
     $("#hero-from-service").textContent = featured.name;
   }
@@ -210,7 +225,7 @@
         fresh.forEach((svc) => seen.add(svc.id));
         return el(
           "optgroup",
-          { label: `${s.icon} ${s.label}` },
+          { label: s.label },
           fresh.map((svc) => el("option", { value: svc.id }, svc.name))
         );
       });
@@ -467,8 +482,9 @@
           if (!res.ok || String(result.success) === "false") throw new Error(result.message || String(res.status));
           form.reset();
           preselectBooking([], "");
-          status.textContent = "Thanks! We got your request and will reach out within 24 hours.";
+          status.textContent = "Woohoo, got it! One of us will text or email you within 24 hours.";
           status.classList.add("success");
+          tossLeaves(button);
           return;
         } catch (err) {
           // Fall through to the copyable request so the customer isn't stuck,
@@ -597,6 +613,62 @@
       running = entry.isIntersecting;
       if (running && !wasRunning) requestAnimationFrame(frame);
     }).observe(canvas);
+    requestAnimationFrame(frame);
+  }
+
+  // A one-off handful of leaves thrown up from the button when a booking goes
+  // through. Only on a real success, never on a click, and not at all for
+  // reduced motion.
+  function tossLeaves(origin) {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const canvas = el("canvas", { class: "leaf-toss", "aria-hidden": "true" });
+    document.body.append(canvas);
+    const ratio = Math.min(window.devicePixelRatio || 1, 2);
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    canvas.width = width * ratio;
+    canvas.height = height * ratio;
+    const ctx = canvas.getContext("2d");
+    ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+
+    const box = origin.getBoundingClientRect();
+    const colors = ["#e07a2a", "#c9661f", "#a83f27", "#e3a13c", "#f0b54a", "#7a9a3a"];
+    const leaves = Array.from({ length: 42 }, () => ({
+      x: box.left + Math.random() * box.width,
+      y: box.top + box.height / 2,
+      vx: (Math.random() - 0.5) * 9,
+      vy: -7 - Math.random() * 9,
+      size: 7 + Math.random() * 9,
+      angle: Math.random() * Math.PI * 2,
+      spin: (Math.random() - 0.5) * 0.3,
+      color: colors[Math.floor(Math.random() * colors.length)],
+    }));
+
+    const start = performance.now();
+    function frame(now) {
+      const t = now - start;
+      ctx.clearRect(0, 0, width, height);
+      ctx.globalAlpha = Math.max(0, 1 - Math.max(0, t - 1100) / 500);
+      for (const leaf of leaves) {
+        leaf.vy += 0.32;
+        leaf.vx *= 0.985;
+        leaf.x += leaf.vx;
+        leaf.y += leaf.vy;
+        leaf.angle += leaf.spin;
+        ctx.save();
+        ctx.translate(leaf.x, leaf.y);
+        ctx.rotate(leaf.angle);
+        ctx.fillStyle = leaf.color;
+        ctx.beginPath();
+        ctx.moveTo(0, -leaf.size);
+        ctx.quadraticCurveTo(leaf.size * 0.9, 0, 0, leaf.size);
+        ctx.quadraticCurveTo(-leaf.size * 0.9, 0, 0, -leaf.size);
+        ctx.fill();
+        ctx.restore();
+      }
+      if (t < 1600) requestAnimationFrame(frame);
+      else canvas.remove();
+    }
     requestAnimationFrame(frame);
   }
 
