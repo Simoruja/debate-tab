@@ -40,10 +40,13 @@ window.YARD_CREW_CONFIG = {
       { name: "Sam", role: "Equipment & logistics" },
       { name: "Taylor", role: "Customer follow-up" },
     ],
-    // Paste a Formspree (https://formspree.io) or similar form URL here to
-    // receive booking requests by email automatically. If left blank, the
-    // booking form opens the customer's email app with the request filled in.
-    formEndpoint: "",
+    // Where booking requests are sent. FormSubmit (https://formsubmit.co)
+    // emails every request to the address at the end of this URL, with no
+    // account needed. The very first request triggers a one-time activation
+    // email to that inbox; click the link in it and requests start arriving.
+    // A Formspree URL (https://formspree.io/f/...) works here too. If left
+    // blank, customers get a copyable request to text or email you instead.
+    formEndpoint: "https://formsubmit.co/ajax/rahard@bc.edu",
   },
 
   // Months are 1-12. The site opens on the season that matches today's date.

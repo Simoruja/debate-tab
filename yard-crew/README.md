@@ -42,9 +42,13 @@ Copy any entry in `services`, give it a new `id`, `name`, `seasons` and `pricing
 
 ## Getting booking requests
 
-**Out of the box:** when someone submits the form, their email app opens with the request filled in and addressed to you.
+Every request from the booking form is **emailed to you** through [FormSubmit](https://formsubmit.co), a free service that needs no account. The address is the end of `business.formEndpoint` in `config.js` (currently `rahard@bc.edu`).
 
-**Better (free, about 5 minutes):** create a form at [Formspree](https://formspree.io), copy the form URL (looks like `https://formspree.io/f/abcd1234`), and paste it into `business.formEndpoint` in `config.js`. Requests then land in your inbox automatically and the customer never leaves the page.
+**One-time setup:** the very first request sends an activation email from FormSubmit to that inbox. Click the link in it, and every request after that arrives as an email with the customer's details in a table. Hit **Reply** to answer the customer directly. Do a test booking on the live site yourself to trigger this, and check spam if you don't see it.
+
+If sending ever fails (before activation, or no internet), the customer sees their request ready to copy and text or email to you, so no request is lost.
+
+To use a different inbox, change the email at the end of `formEndpoint` (it needs its own one-time activation). A [Formspree](https://formspree.io) form URL also works there if you'd rather have a dashboard of past requests.
 
 ## Preview and publish
 

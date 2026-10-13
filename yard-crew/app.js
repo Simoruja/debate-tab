@@ -443,42 +443,49 @@
         notes: data.get("notes") || "",
       };
 
+      const subject = `${waitlist.length ? "Waitlist" : "Job request"}: ${names.join(", ")} (${payload.name})`;
+      $("#request-box").hidden = true;
+
       if (biz.formEndpoint) {
         const button = $("#booking-submit");
         button.disabled = true;
         status.textContent = "Sending…";
         try {
+          // _subject and _replyto are understood by FormSubmit and Formspree:
+          // they set the email subject and let you hit Reply to answer the customer.
           const res = await fetch(biz.formEndpoint, {
             method: "POST",
             headers: { "Content-Type": "application/json", Accept: "application/json" },
-            body: JSON.stringify(payload),
+            body: JSON.stringify({ ...payload, _subject: subject, _replyto: payload.email, _template: "table" }),
           });
-          if (!res.ok) throw new Error(String(res.status));
+          const result = await res.json().catch(() => ({}));
+          // FormSubmit answers 200 with success "false" until the inbox is activated.
+          if (!res.ok || String(result.success) === "false") throw new Error(result.message || String(res.status));
           form.reset();
           preselectBooking([], "");
           status.textContent = "Thanks! We got your request and will reach out within 24 hours.";
           status.classList.add("success");
+          return;
         } catch {
-          status.textContent = `Something went wrong. Please text or call us at ${biz.phone}.`;
-          status.classList.add("error");
+          // Fall through to the copyable request so the customer isn't stuck.
         } finally {
           button.disabled = false;
         }
-        return;
       }
 
-      // No form backend configured: show the filled-in request so the
+      // No form backend, or sending failed: show the filled-in request so the
       // customer can copy it into a text or email, or open their email app.
       const body = Object.entries(payload)
         .map(([k, v]) => `${k}: ${v}`)
         .join("\n");
-      const subject = `${waitlist.length ? "Waitlist" : "Job request"}: ${names.join(", ")}`;
       $("#request-text").textContent = body;
       $("#request-mail").href =
         `mailto:${biz.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
       $("#request-box").hidden = false;
-      status.textContent = `Your request is ready. Copy it and text it to ${biz.phone} or email it to ${biz.email}.`;
-      status.classList.add("success");
+      status.textContent = biz.formEndpoint
+        ? `We couldn't send your request automatically. Copy it and text it to ${biz.phone} or email it to ${biz.email}.`
+        : `Your request is ready. Copy it and text it to ${biz.phone} or email it to ${biz.email}.`;
+      status.classList.add(biz.formEndpoint ? "error" : "success");
     });
 
     $("#request-copy").addEventListener("click", async () => {
