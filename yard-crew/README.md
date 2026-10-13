@@ -1,6 +1,6 @@
-# Campus Yard Crew website
+# Leaves Away website
 
-A one-page website for a student-run raking, landscaping and (later) snow-shoveling side business. It's plain HTML/CSS/JS: no build step, no server, free to host.
+The website for **Leaves Away**, a student-run raking, landscaping and (later) snow-shoveling business based in Chestnut Hill and serving Newton and nearby. It's plain HTML/CSS/JS, with no server, and free to host.
 
 ## What's on the site
 
@@ -50,14 +50,17 @@ If sending ever fails (before activation, or no internet), the customer sees the
 
 To use a different inbox, change the email at the end of `formEndpoint` (it needs its own one-time activation). A [Formspree](https://formspree.io) form URL also works there if you'd rather have a dashboard of past requests.
 
+## Photos
+
+The background photos are free Unsplash photos (Unsplash License, no attribution required, though the footer credits the photographers). They aren't stored in this folder. `fetch-photos.sh` downloads them each time Vercel builds the site, and the build fails if a download goes wrong, so the live site never shows a broken picture.
+
+To swap a photo, find one on [unsplash.com](https://unsplash.com), copy the ID at the end of its page URL, and replace the matching ID in `fetch-photos.sh`. When you open `index.html` straight from your computer, the photos show as autumn-colored placeholders instead.
+
 ## Preview and publish
 
-- **Preview:** double-click `index.html` to open it in your browser.
-- **Publish for free** (pick one):
-  - **Netlify Drop:** drag the `yard-crew` folder onto <https://app.netlify.com/drop>.
-  - **GitHub Pages:** put these files in their own repo, then Settings → Pages → deploy from branch.
-  - **Vercel:** import the repo and set the root directory to `yard-crew`.
-- Optional: buy a domain (about $10–15/yr) like `campusyardcrew.com` and point it at the host.
+- **Live site:** https://leavesaway.vercel.app, on the Vercel project `campus-yard-crew`. Its settings are: root directory `yard-crew`, build command `sh fetch-photos.sh`, output directory `dist`.
+- **Preview locally:** double-click `index.html` (photos show as placeholders).
+- **Other hosts** (Netlify, GitHub Pages): run `sh fetch-photos.sh` once and publish the `dist` folder it creates.
 
 ---
 

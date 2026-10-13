@@ -1,6 +1,6 @@
 /*
  * ============================================================
- *  YARD CREW SITE CONFIG — this is the only file you need to edit
+ *  LEAVES AWAY SITE CONFIG — this is the only file you need to edit
  * ============================================================
  *
  * - Change your business name, contact info and service area below.
@@ -25,15 +25,25 @@
  */
 window.YARD_CREW_CONFIG = {
   business: {
-    name: "Campus Yard Crew",
-    tagline: "College students. Real work ethic. Fair prices.",
+    name: "Leaves Away",
+    tagline: "Your yard, handled by four college kids who actually show up.",
     pitch:
-      "We're a crew of local college students who rake, mow, clean up and shovel so you don't have to. Same quality as the big companies, without the big-company price tag.",
-    city: "Your Town",
-    serviceArea: ["Downtown", "University Heights", "Northside", "Maple Grove"],
+      "We're Asita, Matthew, Thant and Juan, four students based in Chestnut Hill. We rake, mow, tidy and shovel around Newton and nearby, for a lot less than the big landscaping companies.",
+    city: "Chestnut Hill",
+    serviceArea: [
+      "Chestnut Hill",
+      "Newton Centre",
+      "Newton Highlands",
+      "Newtonville",
+      "West Newton",
+      "Auburndale",
+      "Waban",
+      "Brookline",
+      "Brighton",
+    ],
     phone: "+1 (651) 895-2257",
     email: "adamsjuan257@gmail.com",
-    instagram: "", // e.g. "campusyardcrew" (leave blank to hide)
+    instagram: "", // e.g. "leavesaway" (leave blank to hide)
     crew: [
       { name: "Asita", role: "Scheduling & quotes" },
       { name: "Matthew", role: "Crew lead" },
@@ -196,20 +206,24 @@ window.YARD_CREW_CONFIG = {
 
   faq: [
     {
+      q: "Which towns do you cover?",
+      a: "We're based in Chestnut Hill and work all over Newton, plus Brookline and Brighton. A little farther out? Ask anyway. If a few neighbors on your street book together, we'll make the trip.",
+    },
+    {
       q: "Are you insured?",
       a: "Ask us about our current coverage when you book. We're upfront about what we do and don't cover.",
     },
     {
       q: "Do I need to be home?",
-      a: "Nope. Just make sure gates are unlocked and pets are inside. We'll text you a photo when we're done.",
+      a: "Nope. Leave the gate unlocked and the dog inside, and we'll text you a before-and-after photo when we're done.",
     },
     {
       q: "How do I pay?",
-      a: "Venmo, Zelle, or cash after the job is done. No deposit for one-time jobs.",
+      a: "Venmo, Zelle or cash, after the job is done and you're happy with it. No deposit for one-time jobs.",
     },
     {
       q: "Do you do gutters or roof work?",
-      a: "No. We keep our feet on the ground, so no ladders, roofs or tree climbing.",
+      a: "No. We keep our feet on the ground: no ladders, roofs or tree climbing. We're happy to recommend someone who does.",
     },
     {
       q: "What if it rains or snows on my booked day?",

@@ -155,6 +155,8 @@
   function selectSeason(id) {
     activeSeasonId = id;
     const season = seasonById[id];
+    // Swaps the photo above the price cards (see #services[data-season] in styles.css).
+    $("#services").dataset.season = id;
     document.querySelectorAll(".season-tab").forEach((tab) => {
       tab.setAttribute("aria-selected", String(tab.dataset.season === id));
     });
@@ -502,6 +504,89 @@
     });
   }
 
+  // ---------------------------------------------------------- leaves
+  // Leaves drifting down over the hero photo. Skipped for reduced motion,
+  // and paused while the hero is off screen.
+  function startFallingLeaves() {
+    const canvas = $("#hero-leaves");
+    if (!canvas || !canvas.getContext) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const ctx = canvas.getContext("2d");
+    const colors = ["#e07a2a", "#c9661f", "#a83f27", "#e3a13c", "#b8572a", "#f0b54a"];
+    let width = 0;
+    let height = 0;
+    let leaves = [];
+    let running = true;
+
+    function makeLeaf(randomY) {
+      return {
+        x: Math.random() * width,
+        y: randomY ? Math.random() * height : -30,
+        size: 7 + Math.random() * 10,
+        fall: 0.35 + Math.random() * 0.75,
+        sway: 0.6 + Math.random() * 1.4,
+        phase: Math.random() * Math.PI * 2,
+        spin: (Math.random() - 0.5) * 0.04,
+        angle: Math.random() * Math.PI * 2,
+        color: colors[Math.floor(Math.random() * colors.length)],
+      };
+    }
+
+    function resize() {
+      const ratio = Math.min(window.devicePixelRatio || 1, 2);
+      width = canvas.clientWidth;
+      height = canvas.clientHeight;
+      canvas.width = width * ratio;
+      canvas.height = height * ratio;
+      ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+      const count = Math.round(Math.min(26, Math.max(10, width / 55)));
+      leaves = Array.from({ length: count }, () => makeLeaf(true));
+    }
+
+    function drawLeaf(leaf) {
+      ctx.save();
+      ctx.translate(leaf.x, leaf.y);
+      ctx.rotate(leaf.angle);
+      // Squash horizontally as it turns, so it looks like it's tumbling.
+      ctx.scale(Math.cos(leaf.angle * 1.7), 1);
+      ctx.fillStyle = leaf.color;
+      ctx.beginPath();
+      ctx.moveTo(0, -leaf.size);
+      ctx.quadraticCurveTo(leaf.size * 0.9, 0, 0, leaf.size);
+      ctx.quadraticCurveTo(-leaf.size * 0.9, 0, 0, -leaf.size);
+      ctx.fill();
+      ctx.strokeStyle = "rgba(60, 25, 8, 0.45)";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(0, -leaf.size);
+      ctx.lineTo(0, leaf.size * 1.25);
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    function frame(time) {
+      if (!running) return;
+      ctx.clearRect(0, 0, width, height);
+      for (const leaf of leaves) {
+        leaf.y += leaf.fall;
+        leaf.x += Math.sin(time / 900 + leaf.phase) * leaf.sway * 0.5;
+        leaf.angle += leaf.spin;
+        if (leaf.y > height + 30) Object.assign(leaf, makeLeaf(false));
+        drawLeaf(leaf);
+      }
+      requestAnimationFrame(frame);
+    }
+
+    resize();
+    window.addEventListener("resize", resize);
+    new IntersectionObserver(([entry]) => {
+      const wasRunning = running;
+      running = entry.isIntersecting;
+      if (running && !wasRunning) requestAnimationFrame(frame);
+    }).observe(canvas);
+    requestAnimationFrame(frame);
+  }
+
   // ---------------------------------------------------------------- init
   function init() {
     bindText();
@@ -517,6 +602,7 @@
     renderLists();
     renderBookingServices();
     wireBooking();
+    startFallingLeaves();
   }
 
   init();

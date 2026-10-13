@@ -2,16 +2,16 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Campus Yard Crew</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Leaves Away</title>
     <meta
       name="description"
-      content="Student-run leaf raking, lawn mowing, yard cleanup and snow shoveling at fair prices."
+      content="Leaves Away: leaf raking, lawn mowing, yard cleanup and snow shoveling by four college students in Chestnut Hill and Newton."
     />
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍂</text></svg>" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600;700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Caveat:wght@500;700&family=Figtree:wght@400;500;600;700&display=swap" />
     <link rel="stylesheet" href="styles.css" />
     <script src="config.js" defer></script>
     <script src="app.js" defer></script>
@@ -21,50 +21,96 @@
 
     <header class="site-header">
       <div class="container header-inner">
-        <a class="brand" href="#top" data-bind="name">Campus Yard Crew</a>
+        <a class="brand" href="#top">
+          <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
+            <path d="M16 3c6 5 9 10 9 15a9 9 0 0 1-18 0c0-5 3-10 9-15Z" />
+            <path class="brand-vein" d="M16 9v20M16 16l-4-3M16 21l5-4" />
+          </svg>
+          <span data-bind="name">Leaves Away</span>
+        </a>
         <nav aria-label="Main">
           <ul class="nav-links">
-            <li><a href="#services">Services</a></li>
-            <li><a href="#estimate">Get an estimate</a></li>
-            <li><a href="#compare">Compare</a></li>
+            <li><a href="#hello">Who we are</a></li>
+            <li><a href="#services">Prices</a></li>
+            <li><a href="#estimate">Estimate</a></li>
             <li><a href="#faq">FAQ</a></li>
           </ul>
         </nav>
-        <a class="btn btn-small" href="#book">Book now</a>
+        <a class="btn btn-small" href="#book">Book a job</a>
       </div>
     </header>
 
     <main id="main">
+      <!-- Hero: full-bleed rake photo with falling leaves drawn on a canvas -->
       <section class="hero" id="top">
+        <div class="hero-photo" aria-hidden="true"></div>
+        <canvas class="hero-leaves" id="hero-leaves" aria-hidden="true"></canvas>
         <div class="container hero-inner">
           <div class="hero-copy">
             <p class="eyebrow" id="hero-eyebrow">Now booking</p>
-            <h1 data-bind="tagline">College students. Real work ethic. Fair prices.</h1>
-            <p class="lead" data-bind="pitch"></p>
+            <h1 class="wordmark">Leaves<br />Away</h1>
+            <p class="hero-tagline" data-bind="tagline"></p>
             <div class="hero-actions">
-              <a class="btn" href="#estimate">Get an instant estimate</a>
-              <a class="btn btn-ghost" href="#services">See prices</a>
+              <a class="btn btn-leaf" href="#estimate">Get a price in 30 seconds</a>
+              <a class="btn btn-glass" href="#services">See all prices</a>
             </div>
-            <ul class="hero-points">
-              <li><strong>Below</strong> typical pro-crew prices</li>
-              <li><strong>No contracts</strong> for one-time jobs</li>
-              <li><strong>Photo</strong> sent when we finish</li>
-            </ul>
           </div>
-          <div class="hero-card" aria-hidden="true">
-            <div class="hero-card-season" id="hero-season-icon">🍂</div>
-            <p class="hero-card-label">Starting at</p>
-            <p class="hero-card-price" id="hero-from-price">$75</p>
-            <p class="hero-card-service" id="hero-from-service">Leaf raking &amp; bagging</p>
+          <aside class="price-tag" aria-label="Starting price">
+            <span class="price-tag-hole" aria-hidden="true"></span>
+            <span class="hero-season-icon" id="hero-season-icon" aria-hidden="true">🍂</span>
+            <span class="price-tag-label">Starting at</span>
+            <span class="price-tag-price" id="hero-from-price">$75</span>
+            <span class="price-tag-service" id="hero-from-service">Leaf Raking &amp; Bagging</span>
+            <span class="scribble">bags included!</span>
+          </aside>
+        </div>
+      </section>
+
+      <!-- A note from the crew -->
+      <section class="section hello" id="hello">
+        <div class="container hello-layout">
+          <div class="polaroids" aria-label="Photos">
+            <figure class="polaroid polaroid-a">
+              <div class="photo photo-raking" role="img" aria-label="Someone holding a garden rake"></div>
+              <figcaption>Saturday mornings</figcaption>
+            </figure>
+            <figure class="polaroid polaroid-b">
+              <div class="photo photo-pile" role="img" aria-label="A big pile of fallen autumn leaves"></div>
+              <figcaption>one yard, ~30 bags</figcaption>
+            </figure>
+          </div>
+          <div class="letter">
+            <p class="eyebrow eyebrow-dark">Hi, neighbor</p>
+            <h2>We'd rather be raking your leaves than sitting on the couch.</h2>
+            <p class="lead" data-bind="pitch"></p>
+            <p>
+              We started Leaves Away because every fall we'd walk past yards buried in leaves and think, we could do that,
+              and do it well. We show up when we say we will, we bag every last leaf, and we text you a photo when
+              we're done. You get your Saturday back.
+            </p>
+            <ul class="promises">
+              <li><strong>Fair, upfront prices.</strong> You see the price before we start, and it never goes up without your OK.</li>
+              <li><strong>The same faces every time.</strong> No random subcontractors. It's us.</li>
+              <li><strong>Pay after.</strong> Venmo, Zelle or cash once you're happy with the job.</li>
+            </ul>
+            <ul class="crew-list" id="crew-list" aria-label="The crew"></ul>
+            <p class="signature">Asita, Matthew, Thant &amp; Juan</p>
           </div>
         </div>
       </section>
 
-      <section class="section" id="services">
+      <!-- Services and prices; the banner photo changes with the season tab -->
+      <section class="section section-alt" id="services" data-season="fall">
         <div class="container">
+          <div class="season-photo" aria-hidden="true">
+            <div class="season-photo-img season-fall"></div>
+            <div class="season-photo-img season-spring"></div>
+            <div class="season-photo-img season-winter"></div>
+            <p class="season-photo-note">pick a season ↓</p>
+          </div>
           <div class="section-head">
-            <h2>Services &amp; prices</h2>
-            <p>Simple, upfront pricing. Pick a season to see what we offer.</p>
+            <h2>What we do, and what it costs</h2>
+            <p>Simple prices, no surprise fees. Pick a season to see what we offer.</p>
           </div>
           <div class="season-tabs" role="tablist" aria-label="Seasons" id="season-tabs"></div>
           <div id="season-banner" class="season-banner" hidden></div>
@@ -72,11 +118,12 @@
         </div>
       </section>
 
-      <section class="section section-alt" id="estimate">
+      <section class="section" id="estimate">
         <div class="container estimate-layout">
           <div class="section-head">
-            <h2>Instant estimate</h2>
-            <p>Pick a service and your yard or driveway size. We'll confirm the final price before we start, and it never goes up without your OK.</p>
+            <h2>Get a price right now</h2>
+            <p>Pick a service and how big your yard or driveway is. We'll confirm the final number before we start.</p>
+            <p class="scribble scribble-arrow">no email needed to see a price →</p>
           </div>
           <form class="card estimator" id="estimator" novalidate>
             <label class="field">
@@ -94,8 +141,16 @@
               <output id="est-total" aria-live="polite">$0</output>
             </div>
             <p class="est-compare" id="est-compare"></p>
-            <button type="button" class="btn btn-block" id="est-book">Request this job</button>
+            <button type="button" class="btn btn-block" id="est-book">Book this job</button>
           </form>
+        </div>
+      </section>
+
+      <!-- Full-width photo break -->
+      <section class="photo-break" aria-label="You get your Saturday back">
+        <div class="photo-break-img" aria-hidden="true"></div>
+        <div class="container">
+          <p class="photo-break-quote">You get your Saturday back.<span>We get the rakes out.</span></p>
         </div>
       </section>
 
@@ -103,14 +158,14 @@
         <div class="container">
           <div class="section-head">
             <h2>How we compare</h2>
-            <p>Typical professional prices come from 2026 national cost guides. Local prices vary, but we aim to stay well under the big companies.</p>
+            <p>Typical professional prices come from 2026 national cost guides. Big landscaping companies around here usually charge even more.</p>
           </div>
           <div class="table-wrap">
             <table class="compare-table">
               <thead>
                 <tr>
                   <th scope="col">Service</th>
-                  <th scope="col">Our price</th>
+                  <th scope="col">Leaves Away</th>
                   <th scope="col">Typical pro crew</th>
                 </tr>
               </thead>
@@ -127,16 +182,16 @@
           </div>
           <ol class="steps">
             <li>
-              <h3>Request</h3>
-              <p>Fill out the form or text us. Tell us what you need and roughly how big your yard is.</p>
+              <h3>Ask</h3>
+              <p>Fill out the form below or text us. Tell us what you need and roughly how big the yard is.</p>
             </li>
             <li>
               <h3>Confirm</h3>
               <p>We reply within 24 hours with a firm price and a time that works for you.</p>
             </li>
             <li>
-              <h3>We do the work</h3>
-              <p>Our crew shows up with the tools, gets it done and sends you a photo.</p>
+              <h3>We get to work</h3>
+              <p>We show up with rakes, bags and a mower, get it done, and send you a photo.</p>
             </li>
             <li>
               <h3>Pay after</h3>
@@ -146,55 +201,45 @@
         </div>
       </section>
 
-      <section class="section" id="crew">
-        <div class="container two-col">
-          <div>
-            <h2>Meet the crew</h2>
-            <p>We're students working our way through college. You'll get the same faces every visit, and we care about doing it right because our name is on it.</p>
-            <ul class="crew-list" id="crew-list"></ul>
-          </div>
+      <section class="section" id="faq">
+        <div class="container faq-layout">
           <div>
             <h2>Where we work</h2>
-            <p>We serve <span data-bind="city"></span> and nearby neighborhoods:</p>
+            <p>We're based in <span data-bind="city"></span> and cover these neighborhoods:</p>
             <ul class="area-list" id="area-list"></ul>
-            <p class="muted">Just outside the area? Ask anyway. If there are a few jobs on your street, we'll come.</p>
+            <p class="muted">Just outside the list? Ask anyway. If a few neighbors book together, we'll make the trip.</p>
           </div>
-        </div>
-      </section>
-
-      <section class="section section-alt" id="faq">
-        <div class="container narrow">
-          <div class="section-head">
+          <div>
             <h2>Questions</h2>
+            <div class="faq-list" id="faq-list"></div>
           </div>
-          <div class="faq-list" id="faq-list"></div>
         </div>
       </section>
 
-      <section class="section" id="book">
+      <section class="section section-book" id="book">
         <div class="container narrow">
           <div class="section-head">
             <h2 id="book-title">Book a job</h2>
-            <p id="book-sub">Send us a request and we'll get back to you within 24 hours to confirm a time and price.</p>
+            <p id="book-sub">Send us a request and one of us will get back to you within 24 hours to lock in a time and price.</p>
           </div>
           <form class="card booking" id="booking-form">
             <div class="form-row">
               <label class="field">
                 <span>Name</span>
-                <input name="name" autocomplete="name" required />
+                <input name="name" id="book-name" autocomplete="name" required />
               </label>
               <label class="field">
                 <span>Phone</span>
-                <input name="phone" type="tel" autocomplete="tel" required />
+                <input name="phone" id="book-phone" type="tel" autocomplete="tel" required />
               </label>
             </div>
             <label class="field">
               <span>Email</span>
-              <input name="email" type="email" autocomplete="email" required />
+              <input name="email" id="book-email" type="email" autocomplete="email" required />
             </label>
             <label class="field">
               <span>Address</span>
-              <input name="address" autocomplete="street-address" required />
+              <input name="address" id="book-address" autocomplete="street-address" required />
             </label>
             <fieldset class="field">
               <legend>What do you need?</legend>
@@ -203,11 +248,11 @@
             <div class="form-row">
               <label class="field">
                 <span>Preferred date</span>
-                <input name="date" type="date" />
+                <input name="date" id="book-date" type="date" />
               </label>
               <label class="field">
                 <span>Best time</span>
-                <select name="time">
+                <select name="time" id="book-time">
                   <option>Anytime</option>
                   <option>Morning</option>
                   <option>Afternoon</option>
@@ -217,7 +262,7 @@
             </div>
             <label class="field">
               <span>Anything we should know?</span>
-              <textarea name="notes" rows="3" placeholder="Gate code, dog in the yard, extra-leafy back corner..."></textarea>
+              <textarea name="notes" id="book-notes" rows="3" placeholder="Gate code, dog in the yard, extra-leafy back corner..."></textarea>
             </label>
             <input type="hidden" name="estimate" id="booking-estimate" />
             <p class="estimate-chip" id="booking-estimate-chip" hidden></p>
@@ -243,6 +288,10 @@
       <div class="container footer-inner">
         <p>&copy; <span id="year"></span> <span data-bind="name"></span>. Student-run in <span data-bind="city"></span>.</p>
         <p id="footer-social"></p>
+        <p class="credits">
+          Photos from <a href="https://unsplash.com" rel="noopener">Unsplash</a> by Wendell Shinn, Luiz Guimaraes,
+          Maximilian Zahn, Daniel Watson and Filip Mroz.
+        </p>
       </div>
     </footer>
   </body>
