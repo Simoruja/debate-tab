@@ -35,10 +35,10 @@ window.YARD_CREW_CONFIG = {
     email: "rahard@bc.edu",
     instagram: "", // e.g. "campusyardcrew" (leave blank to hide)
     crew: [
-      { name: "Alex", role: "Scheduling & quotes" },
-      { name: "Jordan", role: "Crew lead" },
-      { name: "Sam", role: "Equipment & logistics" },
-      { name: "Taylor", role: "Customer follow-up" },
+      { name: "Asita", role: "Scheduling & quotes" },
+      { name: "Matthew", role: "Crew lead" },
+      { name: "Thant", role: "Equipment & logistics" },
+      { name: "Juan", role: "Customer follow-up" },
     ],
     // Where booking requests are sent. FormSubmit (https://formsubmit.co)
     // emails every request to the address at the end of this URL, with no
