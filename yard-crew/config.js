@@ -31,8 +31,8 @@ window.YARD_CREW_CONFIG = {
       "We're a crew of local college students who rake, mow, clean up and shovel so you don't have to. Same quality as the big companies, without the big-company price tag.",
     city: "Your Town",
     serviceArea: ["Downtown", "University Heights", "Northside", "Maple Grove"],
-    phone: "(857) 234-9243",
-    email: "rahard@bc.edu",
+    phone: "+1 (651) 895-2257",
+    email: "adamsjuan257@gmail.com",
     instagram: "", // e.g. "campusyardcrew" (leave blank to hide)
     crew: [
       { name: "Asita", role: "Scheduling & quotes" },
@@ -46,7 +46,7 @@ window.YARD_CREW_CONFIG = {
     // email to that inbox; click the link in it and requests start arriving.
     // A Formspree URL (https://formspree.io/f/...) works here too. If left
     // blank, customers get a copyable request to text or email you instead.
-    formEndpoint: "https://formsubmit.co/ajax/rahard@bc.edu",
+    formEndpoint: "https://formsubmit.co/ajax/adamsjuan257@gmail.com",
   },
 
   // Months are 1-12. The site opens on the season that matches today's date.

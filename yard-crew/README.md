@@ -42,7 +42,7 @@ Copy any entry in `services`, give it a new `id`, `name`, `seasons` and `pricing
 
 ## Getting booking requests
 
-Every request from the booking form is **emailed to you** through [FormSubmit](https://formsubmit.co), a free service that needs no account. The address is the end of `business.formEndpoint` in `config.js` (currently `rahard@bc.edu`).
+Every request from the booking form is **emailed to you** through [FormSubmit](https://formsubmit.co), a free service that needs no account. The address is the end of `business.formEndpoint` in `config.js` (currently `adamsjuan257@gmail.com`).
 
 **One-time setup:** the very first request sends an activation email from FormSubmit to that inbox. Click the link in it, and every request after that arrives as an email with the customer's details in a table. Hit **Reply** to answer the customer directly. Do a test booking on the live site yourself to trigger this, and check spam if you don't see it.
 
