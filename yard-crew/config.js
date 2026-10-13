@@ -31,8 +31,8 @@ window.YARD_CREW_CONFIG = {
       "We're a crew of local college students who rake, mow, clean up and shovel so you don't have to. Same quality as the big companies, without the big-company price tag.",
     city: "Your Town",
     serviceArea: ["Downtown", "University Heights", "Northside", "Maple Grove"],
-    phone: "(555) 123-4567",
-    email: "hello@campusyardcrew.com",
+    phone: "(857) 234-9243",
+    email: "rahard@bc.edu",
     instagram: "", // e.g. "campusyardcrew" (leave blank to hide)
     crew: [
       { name: "Alex", role: "Scheduling & quotes" },
