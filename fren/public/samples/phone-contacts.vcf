@@ -1,0 +1,31 @@
+BEGIN:VCARD
+VERSION:3.0
+FN:Jon Becker
+N:Becker;Jon;;;
+TEL;TYPE=CELL:+49 151 2345 6789
+NOTE:Maya's boyfriend
+END:VCARD
+BEGIN:VCARD
+VERSION:3.0
+FN:Maya Lindqvist
+N:Lindqvist;Maya;;;
+TEL;TYPE=CELL:+31 6 1234 5678
+EMAIL:maya@hey.com
+BDAY:1996-11-04
+END:VCARD
+BEGIN:VCARD
+VERSION:3.0
+FN:Ravi Shah
+N:Shah;Ravi;;;
+TEL;TYPE=CELL:+44 7700 900123
+ORG:Monzo
+TITLE:Data Scientist
+URL:https://instagram.com/ravishoots
+END:VCARD
+BEGIN:VCARD
+VERSION:3.0
+FN:Zoë Dubois
+N:Dubois;Zoë;;;
+EMAIL:zoe.dubois@gmail.com
+NOTE:Climbing gym, Tuesday nights
+END:VCARD

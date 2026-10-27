@@ -1,0 +1,85 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+
+  --color-paper: #fbf7f1;
+  --color-ink: #1d1a16;
+  --color-muted: #6f675d;
+  --color-line: #ebe3d7;
+
+  --color-coral-50: #fff4ef;
+  --color-coral-100: #ffe3d8;
+  --color-coral-200: #ffc4ad;
+  --color-coral-400: #ff8a5f;
+  --color-coral-500: #ff6b3d;
+  --color-coral-600: #ec4f1f;
+  --color-coral-700: #c23b12;
+
+  --color-lilac-100: #ece7ff;
+  --color-lilac-200: #d8cfff;
+  --color-lilac-500: #7c66f0;
+  --color-lilac-700: #4f3bbd;
+
+  --color-mint-100: #dcf7ea;
+  --color-mint-500: #2fb57a;
+  --color-mint-700: #1d7a51;
+
+  --animate-pulse-ring: pulse-ring 1.6s ease-out infinite;
+
+  @keyframes pulse-ring {
+    0% { box-shadow: 0 0 0 0 rgb(255 107 61 / 0.45); }
+    100% { box-shadow: 0 0 0 28px rgb(255 107 61 / 0); }
+  }
+}
+
+html {
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+}
+
+::selection {
+  background: var(--color-coral-200);
+}
+
+@utility card {
+  @apply rounded-3xl border border-line bg-white;
+}
+
+@utility btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none;
+}
+@utility btn-primary {
+  @apply btn bg-ink text-paper hover:bg-ink/85;
+}
+@utility btn-accent {
+  @apply btn bg-coral-500 text-white hover:bg-coral-600;
+}
+@utility btn-ghost {
+  @apply btn border border-line bg-white hover:bg-stone-50;
+}
+
+@utility input {
+  @apply w-full rounded-2xl border border-line bg-white px-3.5 py-2.5 text-sm outline-none transition placeholder:text-stone-400 focus:border-coral-400 focus:ring-4 focus:ring-coral-100;
+}
+
+@utility label {
+  @apply mb-1.5 block text-xs font-medium uppercase tracking-wide text-muted;
+}
+
+@utility chip {
+  @apply inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium;
+}
+
+@utility scrollbar-none {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
