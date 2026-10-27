@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // FREN is a separate app with its own lint config.
+    "fren/**",
   ]),
 ]);
 
